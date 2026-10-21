@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="oscuro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Viaje cósmico: de lo cuántico al universo</title>
+<meta name="description" content="Material de lectura interactivo: la Luna, la Tierra, el Sol, la Vía Láctea, el universo y el mundo cuántico, con simulaciones.">
+<meta name="theme-color" content="#060912">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Viaje cósmico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,"URW Palladio L",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,monospace;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px);
+  --bar:56px;
+}
+html[data-theme="oscuro"]{
+  --bg:#060912;--bg2:#0b1120;--ink:#e7eaf3;--muted:#949db3;--line:#1f2a44;
+  --a1:#f59e0b;--a2:#06b6d4;--ok:#34d399;--bad:#f87171;--stage:#02040a;--chip:#121a2e;
+  color-scheme:dark;
+}
+html[data-theme="claro"]{
+  --bg:#f3f5fa;--bg2:#ffffff;--ink:#141a2a;--muted:#5a647a;--line:#d8deea;
+  --a1:#b45309;--a2:#0e7490;--ok:#047857;--bad:#b91c1c;--stage:#0b1222;--chip:#e6eaf3;
+  color-scheme:light;
+}
+html[data-theme="bosque"]{
+  --bg:#0c1d15;--bg2:#12291e;--ink:#e4f0e7;--muted:#97b5a1;--line:#24432f;
+  --a1:#e2b84c;--a2:#6fd3a0;--ok:#7ee0a8;--bad:#f2997e;--stage:#04100a;--chip:#173323;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar) + var(--sat) + 12px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.65;
+  padding-left:var(--sal);padding-right:var(--sar);transition:background .3s,color .3s}
+@media (min-width:760px){body{font-size:1.125rem}}
+a{color:var(--a2)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--a2);outline-offset:2px;border-radius:6px}
+
+/* Barra superior */
+.top{position:fixed;inset:0 0 auto 0;z-index:40;padding-top:var(--sat);background:color-mix(in srgb,var(--bg) 86%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{height:var(--bar);display:flex;align-items:center;gap:10px;padding:0 max(12px,var(--sar)) 0 max(12px,var(--sal));max-width:1180px;margin:0 auto}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);display:grid;place-items:center;cursor:pointer;flex:none;font-size:18px}
+.brand{font-family:var(--serif);font-size:1.1rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.xp{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 6px;border-radius:999px;background:var(--chip);border:1px solid var(--line);cursor:pointer;flex:none}
+.xp .lv{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--a1);color:#111;font-weight:700;font-size:.85rem;font-family:var(--mono)}
+.xp .tx{display:flex;flex-direction:column;line-height:1.1}
+.xp .rk{font-size:.78rem;font-weight:600}
+.xp .pt{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+@media (max-width:420px){.xp .rk{display:none}}
+.prog{height:3px;background:transparent;position:relative}
+.prog i{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--a2),var(--a1))}
+
+/* Hero */
+.hero{position:relative;min-height:100svh;padding-top:calc(var(--bar) + var(--sat));display:flex;flex-direction:column}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:var(--stage);touch-action:pan-y}
+.hero-txt{position:relative;z-index:2;padding:22px max(18px,var(--sal)) 0;max-width:1180px;margin:0 auto;width:100%;pointer-events:none}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,5.4vw,3.6rem);line-height:1.08;margin:0;max-width:16ch;color:#f2f4fa;letter-spacing:-.01em}
+.hero p.lead{color:#b7c0d4;max-width:46ch;margin:.7em 0 0;font-size:1rem}
+.zoom-ui{position:relative;z-index:2;margin-top:auto;padding:14px max(16px,var(--sal)) calc(18px + var(--sab));width:100%;max-width:1180px;margin-left:auto;margin-right:auto}
+.zcard{background:rgba(6,9,18,.72);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 16px;color:#e9ecf5;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.zcard h3{margin:0;font-family:var(--serif);font-weight:600;font-size:1.25rem}
+.zcard .zsize{font-family:var(--mono);color:#fbbf24;font-size:.9rem}
+.zcard p{margin:.35em 0 .7em;font-size:.95rem;color:#c9d0e0;min-height:3em}
+.zrow{display:flex;align-items:center;gap:10px}
+.zrow input{flex:1;min-width:0}
+@media (max-width:600px){.zrow{flex-wrap:wrap}.zrow input{flex:1 1 calc(100% - 110px)}#zTour{flex:1 1 100%}.hero .lead .lx{display:none}}
+@media (min-width:900px){.zcard{max-width:560px}}
+.zbtn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#e9ecf5;border-radius:10px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.zscale{font-family:var(--mono);font-size:.78rem;color:#9aa6bf;display:flex;justify-content:space-between;margin-top:6px;gap:8px}
+
+/* Contenido */
+main{max-width:1180px;margin:0 auto;padding:0 max(18px,var(--sal)) calc(60px + var(--sab))}
+.cap{padding:72px 0 24px;border-top:1px solid var(--line)}
+.cap:first-child{border-top:0}
+.cap-n{font-family:var(--mono);color:var(--a1);font-size:.85rem}
+.cap h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.7rem,4.2vw,2.6rem);line-height:1.12;margin:.15em 0 .5em;max-width:22ch;letter-spacing:-.005em}
+.cap h3{font-family:var(--serif);font-weight:600;font-size:1.3rem;margin:1.8em 0 .4em}
+.txt{max-width:68ch}
+.txt p{margin:0 0 1em}
+.txt strong{color:var(--ink);font-weight:650}
+.scale-note{font-family:var(--mono);font-size:.85rem;color:var(--muted);border-left:3px solid var(--a2);padding:4px 0 4px 12px;margin:0 0 1.4em}
+
+/* Laboratorio */
+.lab{margin:1.6em 0 2em;border:1px solid var(--line);background:var(--bg2);border-radius:18px;overflow:hidden}
+.lab-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.lab-h b{font-family:var(--serif);font-size:1.08rem;font-weight:600}
+.lab-h span{font-size:.82rem;color:var(--muted)}
+.stage{position:relative;width:100%;background:var(--stage)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.stage.pan canvas{touch-action:pan-y}
+.r169{aspect-ratio:16/10}.r11{aspect-ratio:1/1}.r43{aspect-ratio:4/3}.r21{aspect-ratio:2/1}
+@media (max-width:640px){.r169{aspect-ratio:4/3}.r21{aspect-ratio:4/3}.r11m{aspect-ratio:1/1}}
+@media (min-width:900px){.r11{aspect-ratio:16/10}}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:12px 16px}
+.ctrl label{display:flex;flex-direction:column;gap:2px;font-size:.82rem;color:var(--muted);flex:1 1 180px;min-width:150px}
+.ctrl label output{font-family:var(--mono);color:var(--ink);font-size:.82rem}
+.btn{border:1px solid var(--line);background:var(--chip);border-radius:10px;padding:8px 13px;cursor:pointer;font-size:.9rem;white-space:nowrap}
+.btn.on{background:var(--a2);border-color:var(--a2);color:#04131a;font-weight:600}
+html[data-theme="claro"] .btn.on{color:#fff}
+.btn.pri{background:var(--a1);border-color:var(--a1);color:#1a1205;font-weight:600}
+html[data-theme="claro"] .btn.pri{color:#fff}
+.read{font-family:var(--mono);font-size:.82rem;padding:10px 16px 14px;color:var(--muted);display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 16px;border-top:1px dashed var(--line)}
+.read b{color:var(--ink);font-weight:600}
+.hint{font-size:.82rem;color:var(--muted);padding:0 16px 12px}
+input[type=range]{-webkit-appearance:none;appearance:none;height:28px;background:transparent;width:100%}
+input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:5px;background:var(--line)}
+input[type=range]::-moz-range-track{height:5px;border-radius:5px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--a1);margin-top:-8.5px;border:3px solid var(--bg2);box-shadow:0 0 0 1px var(--a1)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--a1);border:3px solid var(--bg2)}
+.zcard input[type=range]::-webkit-slider-runnable-track{background:rgba(255,255,255,.2)}
+.zcard input[type=range]::-webkit-slider-thumb{border-color:#0b1120}
+
+/* Datos que se revelan */
+.fact{display:block;width:100%;text-align:left;margin:1em 0;max-width:68ch;border:1px dashed var(--a1);background:transparent;border-radius:14px;padding:12px 14px;cursor:pointer}
+.fact .q{font-weight:600}
+.fact .q::before{content:"✦ ";color:var(--a1)}
+.fact .a{display:none;margin-top:.4em;color:var(--muted)}
+.fact.open{border-style:solid;background:color-mix(in srgb,var(--a1) 8%,transparent)}
+.fact.open .a{display:block;color:var(--ink)}
+.fact .tap{font-size:.78rem;color:var(--muted);font-family:var(--mono)}
+.fact.open .tap{display:none}
+
+/* Quiz */
+.quiz{margin:2em 0 1em;max-width:68ch;border-radius:18px;padding:16px;background:var(--chip);border:1px solid var(--line)}
+.quiz h4{margin:0 0 .6em;font-family:var(--serif);font-size:1.1rem;font-weight:600}
+.qq{margin:0 0 1.2em}
+.qq p{margin:0 0 .5em;font-weight:600}
+.qo{display:grid;gap:8px}
+.qo button{text-align:left;border:1px solid var(--line);background:var(--bg2);border-radius:12px;padding:10px 12px;cursor:pointer}
+.qo button.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--bg2))}
+.qo button.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--bg2))}
+.qx{font-size:.92rem;color:var(--muted);margin-top:.5em;display:none}
+.qq.done .qx{display:block}
+
+/* Fuerzas */
+.fbars{display:grid;gap:8px;padding:14px 16px}
+.fbar{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:10px;font-size:.88rem}
+.fbar div{height:14px;border-radius:7px;background:var(--line);overflow:hidden}
+.fbar i{display:block;height:100%;width:0;border-radius:7px;transition:width .2s}
+
+/* Velocidad */
+.vrow{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:10px;align-items:center;padding:6px 16px;font-size:.9rem}
+.vrow .bar{height:22px;border-radius:6px;background:var(--line);position:relative;overflow:hidden}
+.vrow .bar i{position:absolute;inset:0 auto 0 0;border-radius:6px}
+.vrow .bar span{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.78rem;color:var(--ink);text-shadow:0 0 4px var(--bg2)}
+.live{font-family:var(--mono);font-size:clamp(1.3rem,4vw,2rem);color:var(--a1);padding:10px 16px 2px}
+
+/* Cajón de capítulos */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(340px,88vw);z-index:60;background:var(--bg2);border-right:1px solid var(--line);
+  transform:translateX(-102%);transition:transform .28s ease;padding:calc(16px + var(--sat)) 16px calc(16px + var(--sab)) calc(16px + var(--sal));overflow:auto}
+.drawer.on{transform:none}
+.drawer h3{font-family:var(--serif);margin:.2em 0 .8em;font-weight:600}
+.drawer a{display:flex;gap:10px;align-items:center;padding:10px 8px;border-radius:10px;color:var(--ink);text-decoration:none}
+.drawer a:hover{background:var(--chip)}
+.drawer a .ck{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:.75rem;flex:none}
+.drawer a.v .ck{background:var(--ok);border-color:var(--ok);color:#06210f}
+
+/* Ajustes */
+.modal{position:fixed;inset:0;z-index:70;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);padding:16px 16px calc(16px + var(--sab))}
+.modal.on{display:flex}
+@media (min-width:700px){.modal{align-items:center}}
+.sheet{width:min(460px,100%);background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:18px}
+.sheet h3{margin:0 0 .8em;font-family:var(--serif);font-weight:600}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.themes button{border-radius:14px;border:2px solid var(--line);padding:12px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--bg)}
+.themes button.on{border-color:var(--a1)}
+.sw{width:38px;height:38px;border-radius:50%;border:1px solid rgba(128,128,128,.4)}
+.setrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--line);gap:12px}
+.tog{width:52px;height:30px;border-radius:15px;border:1px solid var(--line);background:var(--chip);position:relative;cursor:pointer;flex:none}
+.tog::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--muted);transition:left .2s,background .2s}
+.tog.on{background:var(--a2);border-color:var(--a2)}
+.tog.on::after{left:25px;background:#fff}
+
+/* Notificaciones */
+.toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + var(--sab));z-index:80;display:flex;flex-direction:column;gap:8px;width:min(420px,92vw);pointer-events:none}
+.toast{background:var(--bg2);border:1px solid var(--a1);border-radius:14px;padding:10px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.35);
+  animation:tin .35s ease both}
+.toast .ic{font-size:1.6rem}
+.toast b{display:block;font-size:.95rem}
+.toast small{color:var(--muted)}
+@keyframes tin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fly{position:fixed;z-index:90;pointer-events:none;font-family:var(--mono);font-weight:700;color:var(--a1);animation:fly 1s ease-out forwards}
+@keyframes fly{to{transform:translateY(-46px);opacity:0}}
+
+/* Carnet */
+.carnet{border:1px solid var(--line);border-radius:22px;padding:20px;background:
+  radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--a2) 18%,transparent),transparent 60%),var(--bg2);max-width:760px}
+.carnet .big{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.3rem);margin:.1em 0}
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:16px}
+.ach{border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center;font-size:.82rem;background:var(--bg)}
+.ach .ic{font-size:1.6rem;display:block;filter:grayscale(1);opacity:.35}
+.ach.got{border-color:var(--a1)}
+.ach.got .ic{filter:none;opacity:1}
+.ach small{display:block;color:var(--muted);font-size:.74rem;margin-top:2px}
+.mb{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+footer{max-width:1180px;margin:0 auto;padding:20px max(18px,var(--sal)) calc(30px + var(--sab));color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.toast,.fly{animation:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <button class="ibtn" id="menuBtn" aria-label="Abrir capítulos">☰</button>
+    <div class="brand">Viaje cósmico</div>
+    <button class="xp" id="xpChip" aria-label="Ver tu carnet de explorador">
+      <span class="lv" id="lvN">1</span>
+      <span class="tx"><span class="rk" id="rkName">Cadete terrestre</span><span class="pt" id="xpTxt">0 XP</span></span>
+    </button>
+    <button class="ibtn" id="setBtn" aria-label="Ajustes y tema">◐</button>
+  </div>
+  <div class="prog"><i id="progBar"></i></div>
+</header>
+
+<div class="scrim" id="scrim"></div>
+<nav class="drawer" id="drawer" aria-label="Capítulos">
+  <h3>Capítulos</h3>
+  <div id="navList"></div>
+</nav>
+
+<div class="modal" id="setModal" role="dialog" aria-label="Ajustes">
+  <div class="sheet">
+    <h3>Ajustes</h3>
+    <div class="themes">
+      <button data-t="oscuro"><span class="sw" style="background:#060912"></span>Oscuro</button>
+      <button data-t="claro"><span class="sw" style="background:#f3f5fa"></span>Claro</button>
+      <button data-t="bosque"><span class="sw" style="background:#12291e"></span>Verde bosque</button>
+    </div>
+    <div class="setrow" id="instRow" style="display:none"><span id="instTxt">Instalar como app</span><button class="btn pri" id="instBtn">Instalar</button></div>
+    <div class="setrow"><span>Vibración al tocar controles</span><button class="tog" id="hapTog" aria-label="Vibración"></button></div>
+    <div class="setrow"><span>Borrar mi progreso</span><button class="btn" id="resetBtn">Borrar</button></div>
+    <div class="setrow" style="border:0"><span></span><button class="btn pri" id="setClose">Listo</button></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<section class="hero" id="c0" data-nav="Zoom cósmico">
+  <canvas id="zoomCv"></canvas>
+  <div class="hero-txt">
+    <h1>Del vacío cuántico al borde del universo</h1>
+    <p class="lead">Arrastra la barra y recorre 62 órdenes de magnitud, desde la escala más pequeña que la física sabe nombrar hasta todo lo que podemos observar. <span class="lx">En el celular también puedes pellizcar la imagen con dos dedos; en la laptop, usa la rueda del mouse.</span></p>
+  </div>
+  <div class="zoom-ui">
+    <div class="zcard">
+      <h3 id="zName">Tierra</h3>
+      <div class="zsize" id="zSize"></div>
+      <p id="zFact"></p>
+      <div class="zrow">
+        <button class="zbtn" id="zMinus" aria-label="Acercar">−</button>
+        <input type="range" id="zRange" min="-35" max="27" step="0.01" value="7.45" aria-label="Escala">
+        <button class="zbtn" id="zPlus" aria-label="Alejar">+</button>
+        <button class="zbtn" id="zTour">▶ Recorrido</button>
+      </div>
+      <div class="zscale"><span>10⁻³⁵ m</span><span id="zView"></span><span>10²⁷ m</span></div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<section class="cap" id="c00" data-nav="Antes de despegar">
+  <div class="cap-n">Capítulo 0</div>
+  <h2>Antes de despegar</h2>
+  <div class="txt">
+    <p>Este material funciona como un videojuego de lectura. Cada simulación que tocas, cada dato que descubres y cada pregunta que respondes te da puntos de experiencia. Con los puntos subes de rango, desde <strong>Cadete terrestre</strong> hasta <strong>Cosmólogo</strong>. Arriba a la derecha ves tu nivel, y en el menú ☰ ves qué capítulos ya recorriste. Tu progreso queda guardado en este dispositivo.</p>
+    <p>Una idea guía todo el viaje: <strong>casi todo gira alrededor de algo</strong>. La Luna gira alrededor de la Tierra. La Tierra, alrededor del Sol. El Sol arrastra a sus planetas alrededor del centro de la galaxia. Cuando llegas a las escalas más grandes, el giro deja paso a algo más extraño: el propio espacio se estira. Al final bajarás al extremo opuesto, donde una partícula ya no tiene una posición exacta, y verás que ambos mundos están conectados.</p>
+  </div>
+  <button class="fact" data-f="f0"><span class="q">¿Cuánto mide el recorrido del zoom de arriba?</span> <span class="tap">Toca para descubrir</span><span class="a">De la longitud de Planck (0,000…016 m, con 34 ceros después de la coma) al universo observable (unos 880 cuatrillones de km de diámetro). El universo observable es 10⁶² veces más grande. Tú quedas en medio: un ser humano es más grande que la escala de Planck en 35 órdenes de magnitud y más pequeño que el universo observable en 27.</span></button>
+</section>
+
+<section class="cap" id="c1" data-nav="La Luna y la Tierra">
+  <div class="cap-n">Capítulo 1</div>
+  <h2>La Luna y la Tierra: una caída que nunca termina</h2>
+  <p class="scale-note">Distancia media: 384 400 km. La luz la recorre en 1,3 segundos.</p>
+  <div class="txt">
+    <p>Imagina la Tierra del tamaño de una pelota de fútbol. La Luna sería una pelota de tenis colocada a unos 7 metros. Así de lejos está, y así de pequeña se ve en proporción.</p>
+    <p>La Luna está cayendo hacia la Tierra todo el tiempo. La gravedad la jala hacia nosotros, pero ella avanza de costado a unos 3 680 km/h. Mientras cae, la superficie de la Tierra "se curva" por debajo, y la Luna nunca llega a tocarla. A eso llamamos <strong>órbita</strong>: una caída que siempre falla el blanco. Isaac Newton entendió que la manzana que cae y la Luna que gira obedecen a la misma fuerza.</p>
+    <p>Detalle fino: la Luna tampoco gira exactamente alrededor del centro de la Tierra. Las dos giran alrededor de un punto común, el <strong>baricentro</strong>, que queda dentro de la Tierra, a unos 4 670 km de su centro. Por eso nuestro planeta se bambolea un poco cada mes.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: la Luna en órbita</b><span>Toca o arrastra la Luna para moverla</span></div>
+    <div class="stage r169"><canvas id="moonCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn on" id="moonPlay">⏸ Pausa</button>
+      <label>Velocidad <output id="moonSpdO">2 días/s</output><input type="range" id="moonSpd" min="0.2" max="8" step="0.1" value="2"></label>
+      <button class="btn" id="moonTide">Mareas</button>
+      <button class="btn on" id="moonLock">Acoplamiento de marea</button>
+      <button class="btn" id="moonBary">Baricentro</button>
+      <button class="btn" id="moonReal">Escala real</button>
+      <button class="btn" id="moonHemi">Visto desde: hemisferio sur</button>
+    </div>
+    <div class="read">
+      <div>Fase: <b id="moonPhase">-</b></div>
+      <div>Día del ciclo: <b id="moonDay">-</b></div>
+      <div>Iluminada: <b id="moonIllum">-</b></div>
+      <div>Mareas: <b id="moonTideTx">-</b></div>
+    </div>
+    <div class="hint">El recuadro de la esquina muestra cómo ves la Luna desde la Tierra. El punto naranja sobre la Luna marca siempre la misma zona de su superficie. Desactiva "Acoplamiento de marea" y mira qué pasaría si la Luna no estuviera frenada.</div>
+  </div>
+
+  <div class="txt">
+    <h3>Por qué la Luna tiene fases</h3>
+    <p>La Luna no produce luz propia. El Sol ilumina siempre una mitad de ella, igual que ilumina media Tierra. Lo que cambia durante el mes es <strong>cuánto de esa mitad iluminada ves tú</strong>. Cuando la Luna está entre la Tierra y el Sol, le ves la cara oscura: es Luna nueva. Cuando está del otro lado, ves toda la cara iluminada: Luna llena.</p>
+    <p>El ciclo completo de fases dura 29,5 días, aunque la Luna da una vuelta completa alrededor de la Tierra en 27,3 días. La diferencia aparece porque, mientras tanto, la Tierra también avanzó en su órbita alrededor del Sol, y la Luna necesita unos dos días extra para volver a quedar alineada.</p>
+    <p>Un detalle que pocos notan: desde el hemisferio sur ves la Luna "de cabeza" respecto a alguien en Europa. Por eso aquí la Luna creciente se ilumina por el lado izquierdo. Prueba el botón del hemisferio en la simulación.</p>
+
+    <h3>La cara que nunca ves</h3>
+    <p>La Luna gira sobre sí misma en exactamente el mismo tiempo que tarda en dar una vuelta a la Tierra. Resultado: siempre te muestra la misma cara. Esto se llama <strong>acoplamiento de marea</strong>. Hace miles de millones de años la Luna giraba más rápido, pero la gravedad de la Tierra la deformó ligeramente y fue frenando su giro hasta sincronizarlo. Gracias a un ligero balanceo llamado libración, desde la Tierra llegas a ver cerca del 59 % de su superficie.</p>
+
+    <h3>Mareas: la Luna estira los océanos</h3>
+    <p>La gravedad de la Luna jala con más fuerza el lado de la Tierra que tiene cerca y con menos fuerza el lado lejano. Esa diferencia estira el planeta y forma dos abultamientos de agua: uno mirando a la Luna y otro en el lado opuesto. La Tierra gira por debajo de ellos, y por eso en la costa tienes dos mareas altas cada 24 horas y 50 minutos, aproximadamente.</p>
+    <p>El Sol también produce mareas, de algo menos de la mitad de intensidad. En Luna nueva y Luna llena, Sol y Luna se alinean y suman fuerzas: <strong>mareas vivas</strong>, con la mayor diferencia entre marea alta y baja. En los cuartos, tiran en ángulo recto y se restan: <strong>mareas muertas</strong>.</p>
+    <p>Las mareas tienen un costo. El roce del agua frena la rotación de la Tierra, y los días se alargan unos 2 milisegundos por siglo. La energía que pierde la Tierra la gana la Luna, que se aleja 3,8 cm por año. Es la velocidad a la que crecen tus uñas.</p>
+  </div>
+  <button class="fact" data-f="f1"><span class="q">¿La cara oculta de la Luna está siempre a oscuras?</span> <span class="tap">Toca para descubrir</span><span class="a">No. Recibe tanta luz solar como la cara visible. En Luna nueva, cuando tú no ves nada, la cara oculta está completamente iluminada. El nombre "oculta" viene de que nunca mira hacia nosotros.</span></button>
+  <button class="fact" data-f="f2"><span class="q">¿De dónde salió la Luna?</span> <span class="tap">Toca para descubrir</span><span class="a">La hipótesis con más apoyo dice que hace unos 4 500 millones de años un planeta del tamaño de Marte, al que llaman Tea, chocó contra la Tierra joven. Los escombros quedaron en órbita y se juntaron hasta formar la Luna. Las rocas que trajo el programa Apolo tienen una composición casi idéntica al manto terrestre, una pista a favor de esta idea.</span></button>
+
+  <div class="quiz" data-quiz="luna">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="luna1" data-a="1"><p>¿Por qué la Luna tiene fases?</p><div class="qo">
+      <button>La sombra de la Tierra la va tapando</button>
+      <button>Ves distintas porciones de su mitad iluminada por el Sol</button>
+      <button>La Luna cambia de brillo durante el mes</button></div>
+      <div class="qx">La sombra de la Tierra solo cae sobre la Luna durante un eclipse lunar, y eso ocurre en Luna llena. Las fases dependen del ángulo entre el Sol, la Tierra y la Luna.</div></div>
+    <div class="qq" data-id="luna2" data-a="2"><p>¿Por qué siempre ves la misma cara de la Luna?</p><div class="qo">
+      <button>Porque la Luna no gira sobre sí misma</button>
+      <button>Porque la Tierra tapa el otro lado</button>
+      <button>Porque gira sobre sí misma una vez por cada vuelta alrededor de la Tierra</button></div>
+      <div class="qx">Si la Luna no girara, verías todas sus caras a lo largo del mes. Desactiva el acoplamiento en la simulación y compruébalo.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c2" data-nav="La Tierra y el Sol">
+  <div class="cap-n">Capítulo 2</div>
+  <h2>La Tierra y el Sol: el carrusel de las estaciones</h2>
+  <p class="scale-note">Distancia media: 149,6 millones de km (1 unidad astronómica, UA). La luz tarda 8 minutos y 20 segundos.</p>
+  <div class="txt">
+    <p>Ahora mismo viajas alrededor del Sol a unos <strong>107 000 km/h</strong>. Una vuelta completa dura 365,26 días. Ese cuarto de día sobrante se acumula, y por eso cada cuatro años agregamos el 29 de febrero.</p>
+    <p>El Sol concentra el 99,86 % de toda la masa del sistema solar. En su interior cabrían 1,3 millones de Tierras. Su gravedad sostiene a todos los planetas, asteroides y cometas, del mismo modo que la Tierra sostiene a la Luna.</p>
+    <p>La causa de las estaciones sorprende a mucha gente. El eje de la Tierra está inclinado <strong>23,4 grados</strong> y apunta siempre hacia el mismo lugar del espacio, cerca de la estrella Polar. Durante media órbita, el hemisferio sur queda inclinado hacia el Sol: recibe los rayos más de frente y los días duran más. Es verano en el sur. Seis meses después, la Tierra está al otro lado del Sol, el hemisferio norte queda mirando al Sol y le toca su verano.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: inclinación y estaciones</b><span>Cambia la fecha, la inclinación y tu latitud</span></div>
+    <div class="stage r169"><canvas id="sunCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn on" id="ssPlay">⏸ Pausa</button>
+      <label>Día del año <output id="ssDayO">-</output><input type="range" id="ssDay" min="0" max="364" step="1" value="0"></label>
+      <label>Inclinación del eje <output id="ssTiltO">23,4°</output><input type="range" id="ssTilt" min="0" max="60" step="0.1" value="23.44"></label>
+      <label>Tu latitud <output id="ssLatO">0°</output><input type="range" id="ssLat" min="-80" max="80" step="0.5" value="0"></label>
+    </div>
+    <div class="ctrl" style="padding-top:0">
+      <button class="btn latb" data-l="0">Ecuador</button>
+      <button class="btn latb" data-l="-12">Perú (≈ −12°)</button>
+      <button class="btn latb" data-l="-23.44">Trópico de Capricornio</button>
+      <button class="btn latb" data-l="66.6">Círculo polar ártico</button>
+    </div>
+    <div class="read">
+      <div>Fecha: <b id="ssDate">-</b></div>
+      <div>Distancia al Sol: <b id="ssDist">-</b></div>
+      <div>Hemisferio sur: <b id="ssSeasonS">-</b></div>
+      <div>Hemisferio norte: <b id="ssSeasonN">-</b></div>
+      <div>Horas de luz en tu latitud: <b id="ssHours">-</b></div>
+      <div>Altura del Sol al mediodía: <b id="ssNoon">-</b></div>
+    </div>
+    <div class="hint">La línea naranja sobre la Tierra es tu latitud. Pon la inclinación en 0° y mira qué pasa con las estaciones.</div>
+  </div>
+
+  <div class="txt">
+    <h3>El mito de la distancia</h3>
+    <p>La órbita de la Tierra es casi un círculo, aunque no perfecto. Estamos más cerca del Sol a inicios de <strong>enero</strong> (147,1 millones de km) y más lejos a inicios de <strong>julio</strong> (152,1 millones de km). Si la distancia causara las estaciones, todo el planeta tendría verano en enero. Pero en enero el hemisferio norte está en pleno invierno. La distancia apenas cambia un 3 %; la inclinación manda.</p>
+    <p>Si vives entre los trópicos, como en todo el territorio peruano, el Sol pasa exactamente por encima de tu cabeza dos veces al año. Ese día, al mediodía, un poste vertical casi no proyecta sombra. Busca la fecha en la simulación: cuando la altura del Sol al mediodía llega a 90°, ese es tu día sin sombra.</p>
+  </div>
+  <button class="fact" data-f="f3"><span class="q">¿El Sol se mueve o está quieto?</span> <span class="tap">Toca para descubrir</span><span class="a">Se mueve, y mucho. Los planetas también lo jalan, sobre todo Júpiter. El Sol describe pequeños giros alrededor del centro de masa del sistema solar, que a veces queda fuera de su superficie. Además, como verás en el capítulo 4, arrastra a toda su familia de planetas alrededor de la galaxia a 828 000 km/h.</span></button>
+
+  <div class="quiz" data-quiz="sol">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="sol1" data-a="0"><p>¿Cuál es la causa principal de las estaciones?</p><div class="qo">
+      <button>La inclinación del eje de la Tierra</button>
+      <button>Los cambios de distancia entre la Tierra y el Sol</button>
+      <button>La variación en el brillo del Sol</button></div>
+      <div class="qx">La inclinación cambia el ángulo con que llegan los rayos y la duración del día. Por eso los dos hemisferios tienen estaciones opuestas.</div></div>
+    <div class="qq" data-id="sol2" data-a="2"><p>¿En qué mes está la Tierra más cerca del Sol?</p><div class="qo">
+      <button>Julio</button>
+      <button>Marzo</button>
+      <button>Enero</button></div>
+      <div class="qx">El perihelio ocurre a inicios de enero. Coincide con el verano del hemisferio sur, pero no lo causa.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c3" data-nav="El sistema solar">
+  <div class="cap-n">Capítulo 3</div>
+  <h2>El sistema solar: un reloj de ocho manecillas</h2>
+  <p class="scale-note">Hasta Neptuno: 4 500 millones de km. La luz del Sol tarda 4 horas en llegar.</p>
+  <div class="txt">
+    <p>Alrededor del Sol giran ocho planetas, cinco planetas enanos reconocidos (entre ellos Plutón), millones de asteroides y billones de cometas. Todos giran en el mismo sentido y casi en el mismo plano, porque nacieron de un mismo disco de gas y polvo que rotaba hace 4 600 millones de años.</p>
+    <p>Johannes Kepler descubrió hace 400 años una regla muy simple: <strong>cuanto más lejos está un planeta, más lento se mueve y más larga es su vuelta</strong>. Mercurio da una vuelta en 88 días. Neptuno tarda 165 años: desde que lo descubrieron en 1846 solo ha completado una órbita. La regla exacta dice que el cuadrado del periodo crece como el cubo de la distancia.</p>
+    <p>Lo difícil de imaginar es el vacío. Si el Sol fuera una pelota de playa de 1 metro, la Tierra sería una canica de 9 mm a 107 metros, y Neptuno estaría a 3,2 km. La estrella más cercana quedaría a casi 29 000 km, más de dos veces el diámetro de la Tierra real.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: el sistema solar en movimiento</b><span>Toca un planeta para ver su ficha</span></div>
+    <div class="stage r11"><canvas id="solCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn on" id="solPlay">⏸ Pausa</button>
+      <label>Velocidad del tiempo <output id="solSpdO">-</output><input type="range" id="solSpd" min="0" max="100" step="1" value="45"></label>
+      <button class="btn" id="solScale">Distancias reales</button>
+    </div>
+    <div class="read"><div>Tiempo transcurrido: <b id="solTime">0 días</b></div><div>Vueltas de la Tierra: <b id="solLaps">0</b></div></div>
+    <div class="hint" id="solInfo">Toca un planeta.</div>
+  </div>
+
+  <div class="txt">
+    <h3>Las fronteras del sistema solar</h3>
+    <p>Más allá de Neptuno está el <strong>cinturón de Kuiper</strong>, un anillo de cuerpos helados donde vive Plutón. Luego viene la <strong>heliopausa</strong>, el punto donde el viento de partículas del Sol choca con el gas entre las estrellas. La sonda Voyager 1 la cruzó en 2012, a unos 121 UA, y sigue enviando datos.</p>
+    <p>Mucho más lejos, entre 2 000 y 100 000 UA, se supone que existe la <strong>nube de Oort</strong>, una esfera gigante de cometas dormidos. Nadie la ha visto directamente: la deducimos por los cometas de periodo largo que llegan desde todas las direcciones. Su borde exterior queda a casi un tercio del camino a la estrella más cercana.</p>
+  </div>
+  <button class="fact" data-f="f4"><span class="q">¿En qué planeta el día dura más que el año?</span> <span class="tap">Toca para descubrir</span><span class="a">En Venus. Gira sobre sí mismo tan lento (243 días terrestres) que completa la vuelta al Sol (225 días) antes de terminar un giro. Además gira al revés: allí el Sol sale por el oeste.</span></button>
+
+  <div class="quiz" data-quiz="sis">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="sis1" data-a="1"><p>¿Qué pasa con la velocidad de un planeta cuanto más lejos del Sol está?</p><div class="qo">
+      <button>Se mueve más rápido</button>
+      <button>Se mueve más lento</button>
+      <button>Todos se mueven igual</button></div>
+      <div class="qx">La gravedad del Sol se debilita con la distancia, así que basta una velocidad menor para mantener la órbita. Mercurio va a 170 000 km/h; Neptuno, a 19 500 km/h.</div></div>
+    <div class="qq" data-id="sis2" data-a="0"><p>¿Por qué todos los planetas giran en el mismo sentido?</p><div class="qo">
+      <button>Porque nacieron de un mismo disco de gas que ya rotaba</button>
+      <button>Porque el Sol los empuja con su luz</button>
+      <button>Es pura casualidad</button></div>
+      <div class="qx">El giro del disco original se conservó en las órbitas. Es una huella de cómo se formó el sistema solar.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c4" data-nav="El Sol en la Vía Láctea">
+  <div class="cap-n">Capítulo 4</div>
+  <h2>El Sol en la Vía Láctea: una vuelta cada 230 millones de años</h2>
+  <p class="scale-note">Distancia al centro galáctico: unos 26 000 años luz. Un año luz equivale a 9,46 billones de km.</p>
+  <div class="txt">
+    <p>La Vía Láctea es una galaxia espiral con una barra central. Mide unos 100 000 años luz de diámetro y contiene entre 100 000 y 400 000 millones de estrellas. El Sol es una de ellas, ubicado en un brazo menor llamado <strong>brazo de Orión</strong>, a mitad de camino entre el centro y el borde.</p>
+    <p>El Sol, con todos sus planetas, gira alrededor del centro de la galaxia a unos <strong>828 000 km/h</strong>. Aun así, una vuelta completa tarda unos 230 millones de años: un <strong>año galáctico</strong>. La última vez que el Sol estuvo en este punto de su órbita, aparecían los primeros dinosaurios. Desde que nació, el Sol ha dado unas 20 vueltas.</p>
+    <p>En el centro hay un agujero negro llamado <strong>Sagitario A*</strong>, con una masa de 4 millones de soles. En 2022 el telescopio Event Horizon publicó la primera imagen de su sombra. Aunque parezca un monstruo, su gravedad apenas influye en el Sol: lo que nos mantiene en órbita es la masa total de la galaxia.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: máquina del tiempo galáctica</b><span>Retrocede y mira dónde estaba el Sol</span></div>
+    <div class="stage r11"><canvas id="galCv"></canvas></div>
+    <div class="ctrl">
+      <label>Retroceder en el tiempo <output id="galTO">hoy</output><input type="range" id="galT" min="0" max="4600" step="1" value="0"></label>
+    </div>
+    <div class="read"><div>Vueltas galácticas: <b id="galLaps">0</b></div><div>En la Tierra: <b id="galEv">Hoy</b></div></div>
+    <div class="hint">Los brazos espirales giran a otro ritmo que las estrellas; aquí los dejamos quietos para que veas la órbita del Sol con claridad.</div>
+  </div>
+
+  <div class="txt">
+    <h3>El misterio de las estrellas demasiado rápidas</h3>
+    <p>En el sistema solar, los planetas lejanos se mueven más lento. Se esperaba lo mismo en las galaxias: las estrellas del borde deberían girar más despacio que las del centro, porque casi toda la masa visible está concentrada en el medio. En la década de 1970, la astrónoma Vera Rubin midió la velocidad de las estrellas en otras galaxias y encontró algo inesperado: <strong>las estrellas lejanas giran casi tan rápido como las cercanas</strong>.</p>
+    <p>Con la masa que vemos, esas estrellas deberían salir disparadas. La explicación más aceptada es que cada galaxia está envuelta en un halo de <strong>materia oscura</strong>: algo que tiene masa y gravedad, pero no emite ni absorbe luz. Según las mediciones actuales, la materia oscura forma cerca del 85 % de toda la materia del universo. Todavía nadie sabe de qué está hecha.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: curva de rotación</b><span>Compara lo que predice la materia visible con lo que medimos</span></div>
+    <div class="stage r169"><canvas id="rotCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn on" id="rotVis">Solo materia visible</button>
+      <button class="btn" id="rotObs">Lo que medimos</button>
+      <button class="btn" id="rotAlign">Alinear marcadores</button>
+    </div>
+    <div class="hint">Cada anillo lleva un marcador naranja. Alinéalos y mira cómo se deforma la línea. Con solo materia visible, la galaxia se enrollaría sobre sí misma en pocas vueltas.</div>
+  </div>
+  <button class="fact" data-f="f5"><span class="q">¿El Sol gira plano, como en un disco?</span> <span class="tap">Toca para descubrir</span><span class="a">No del todo. Mientras da vueltas, el Sol también sube y baja a través del disco de la galaxia, como un caballito de carrusel. Cruza el plano central aproximadamente cada 30 a 40 millones de años. Ahora mismo está ligeramente por encima del plano y subiendo.</span></button>
+
+  <div class="quiz" data-quiz="gal">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="gal1" data-a="2"><p>¿Cuánto tarda el Sol en dar una vuelta a la galaxia?</p><div class="qo">
+      <button>Un año</button>
+      <button>Unos 10 000 años</button>
+      <button>Unos 230 millones de años</button></div>
+      <div class="qx">Aunque viaja a 828 000 km/h, la órbita mide unos 160 000 años luz de circunferencia.</div></div>
+    <div class="qq" data-id="gal2" data-a="0"><p>¿Qué observación delató la existencia de la materia oscura?</p><div class="qo">
+      <button>Las estrellas lejanas del centro giran casi tan rápido como las cercanas</button>
+      <button>Hay zonas del cielo sin estrellas</button>
+      <button>El agujero negro central es invisible</button></div>
+      <div class="qx">Esa "curva de rotación plana" exige mucha más masa de la que vemos. Hoy también la confirman las lentes gravitacionales y el fondo cósmico de microondas.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c5" data-nav="Galaxias vecinas">
+  <div class="cap-n">Capítulo 5</div>
+  <h2>Galaxias vecinas y la gran telaraña</h2>
+  <p class="scale-note">Andrómeda: 2,5 millones de años luz. Supercúmulo Laniakea: unos 520 millones de años luz.</p>
+  <div class="txt">
+    <p>La Vía Láctea viaja acompañada. Junto con Andrómeda, la galaxia del Triángulo y más de 80 galaxias enanas forma el <strong>Grupo Local</strong>, una familia de unos 10 millones de años luz de ancho. Las dos grandes del grupo son la Vía Láctea y Andrómeda, y la gravedad las está acercando a unos 110 km por segundo.</p>
+    <p>Durante años se dijo que chocarían dentro de unos 4 500 millones de años. Un estudio de 2025, con datos de los telescopios Gaia y Hubble, mostró que el futuro es menos seguro: calcula cerca de un 50 % de probabilidad de fusión en los próximos 10 000 millones de años. Si ocurre, las dos espirales se deformarán, se cruzarán, volverán a acercarse y terminarán como una sola galaxia elíptica, a la que algunos llaman Lactómeda.</p>
+    <p>Lo curioso: casi ninguna estrella chocaría con otra. Si el Sol fuera un grano de arena de 1 mm, la estrella más cercana sería otro grano a unos 29 km. Las galaxias son, sobre todo, espacio vacío.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: choque de galaxias</b><span>Simulación gravitacional simplificada, en 2D</span></div>
+    <div class="stage r169"><canvas id="andCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn pri" id="andGo">▶ Iniciar choque</button>
+      <button class="btn" id="andReset">Reiniciar</button>
+      <label>Velocidad <output id="andSpdO">x2</output><input type="range" id="andSpd" min="1" max="5" step="1" value="2"></label>
+    </div>
+    <div class="read"><div>Tiempo desde hoy: <b id="andT">0</b></div><div>Etapa: <b id="andPhase">Acercamiento</b></div></div>
+    <div class="hint">Celeste: Vía Láctea. Ámbar: Andrómeda. Fíjate en las colas de estrellas que se desprenden durante el primer encuentro.</div>
+  </div>
+
+  <div class="txt">
+    <h3>Más arriba en la escala</h3>
+    <p>El Grupo Local está en las afueras del <strong>cúmulo de Virgo</strong>, que tiene más de mil galaxias. Y Virgo es solo una parte de una estructura enorme descrita en 2014: el supercúmulo <strong>Laniakea</strong>, palabra hawaiana que significa "cielo inmenso". Laniakea agrupa unas 100 000 galaxias que fluyen, como ríos, hacia una región llamada el Gran Atractor.</p>
+    <p>A escalas todavía mayores, el universo parece una esponja. Las galaxias se reúnen en paredes y <strong>filamentos</strong> de cientos de millones de años luz, y entre ellos quedan <strong>vacíos</strong> casi desiertos. Los astrónomos lo llaman la telaraña cósmica, y la materia oscura forma su esqueleto: la materia normal cayó sobre ese andamiaje invisible.</p>
+  </div>
+  <button class="fact" data-f="f6"><span class="q">¿Puedes ver otra galaxia a simple vista?</span> <span class="tap">Toca para descubrir</span><span class="a">Sí. Andrómeda se ve como una mancha alargada en cielos oscuros, y su luz salió hace 2,5 millones de años, cuando los primeros humanos del género Homo aún no existían. Desde el hemisferio sur, además, puedes ver las Nubes de Magallanes, dos galaxias satélite de la Vía Láctea.</span></button>
+
+  <div class="quiz" data-quiz="vec">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="vec1" data-a="1"><p>Si la Vía Láctea y Andrómeda se fusionan, ¿qué les pasará a las estrellas?</p><div class="qo">
+      <button>Chocarán unas con otras en masa</button>
+      <button>Casi ninguna chocará: la distancia entre estrellas es enorme</button>
+      <button>Todas caerán al agujero negro central</button></div>
+      <div class="qx">Las galaxias se deforman y se mezclan por gravedad, pero las estrellas individuales casi nunca se tocan.</div></div>
+    <div class="qq" data-id="vec2" data-a="2"><p>¿Cómo se llama el supercúmulo donde está nuestra galaxia?</p><div class="qo">
+      <button>Andrómeda</button>
+      <button>Orión</button>
+      <button>Laniakea</button></div>
+      <div class="qx">Laniakea mide unos 520 millones de años luz e incluye el cúmulo de Virgo y al Grupo Local.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c6" data-nav="El universo y el infinito">
+  <div class="cap-n">Capítulo 6</div>
+  <h2>El universo que se estira, y la pregunta del infinito</h2>
+  <p class="scale-note">Universo observable: unos 93 000 millones de años luz de diámetro. Edad: 13 800 millones de años.</p>
+  <div class="txt">
+    <p>En la década de 1920, Georges Lemaître y Edwin Hubble encontraron que casi todas las galaxias se alejan de nosotros, y que <strong>cuanto más lejos están, más rápido se alejan</strong>. La explicación: el espacio entre las galaxias crece. Piensa en un pan con pasas que se infla en el horno. Cada pasa ve que todas las demás se alejan, y las más lejanas se alejan más rápido, aunque ninguna pasa se mueve por sí misma dentro de la masa.</p>
+    <p>Esto tiene una consecuencia fuerte: el universo no tiene un centro. El Big Bang ocurrió en todas partes a la vez. Retrocede el reloj y todo lo que existe estaba más junto, más denso y más caliente, hace 13 800 millones de años.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: ¿quién es el centro?</b><span>Toca cualquier galaxia para pararte en ella</span></div>
+    <div class="stage r169"><canvas id="expCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn on" id="expArrows">Flechas de velocidad</button>
+      <button class="btn" id="expPlay">⏸ Pausa</button>
+    </div>
+    <div class="read"><div>Estás parado en: <b id="expRef">Galaxia 1</b></div><div>Galaxias que probaste: <b id="expCnt">1</b></div></div>
+    <div class="hint">Elijas la galaxia que elijas, verás a todas las demás alejarse, con flechas más largas cuanto más lejos están. Esa es la ley de Hubble.</div>
+  </div>
+
+  <div class="txt">
+    <h3>¿Por qué 93 000 millones de años luz si solo pasaron 13 800 millones de años?</h3>
+    <p>La luz más vieja que recibimos salió cuando el universo tenía 380 000 años: es el <strong>fondo cósmico de microondas</strong>, un resplandor que llena todo el cielo a 2,7 grados sobre el cero absoluto. Mientras esa luz viajaba hacia nosotros, el espacio siguió estirándose. La región que la emitió hoy está a unos 46 000 millones de años luz. Ese es el radio del universo observable.</p>
+    <p>Desde 1998 sabemos además que la expansión <strong>se acelera</strong>. A la causa desconocida la llamamos energía oscura, y sería cerca del 68 % del contenido del universo. Sumando todo, la materia normal, la de estrellas, planetas y personas, apenas llega al 5 %.</p>
+
+    <h3>¿Hasta el infinito?</h3>
+    <p>Aquí conviene separar cuatro preguntas, porque tienen respuestas muy distintas:</p>
+    <p><strong>Lo que podemos ver.</strong> El universo observable tiene un límite claro, marcado por la distancia que la luz alcanzó a recorrer. Ese límite es nuestro horizonte, y cada observador tiene el suyo.</p>
+    <p><strong>Lo que hay más allá.</strong> Casi con seguridad hay más universo detrás del horizonte. No vemos ningún borde ni cambio en la distribución de galaxias al acercarnos a él.</p>
+    <p><strong>Si es infinito.</strong> Las mediciones indican que el espacio es plano, con un margen de error de menos del 0,5 %. Un universo plano puede ser infinito, o finito pero gigantesco. Hoy nadie puede decidirlo con datos.</p>
+    <p><strong>Si hay otros universos.</strong> Algunas teorías, como ciertas versiones de la inflación cósmica, predicen un multiverso. Son ideas serias, pero todavía no tienen pruebas observacionales. Tómalas como hipótesis abiertas.</p>
+    <p>La medición precisa del ritmo de expansión también trae una discusión viva: según el método, la constante de Hubble sale cerca de 67 o de 73 km/s por megapársec. Esa "tensión de Hubble" podría ser un error de medición o la pista de física nueva.</p>
+  </div>
+  <button class="fact" data-f="f7"><span class="q">¿Se puede ver el Big Bang en una televisión?</span> <span class="tap">Toca para descubrir</span><span class="a">Un poco, sí. En los televisores analógicos sin señal, una pequeña parte de la "nieve" de estática era radiación del fondo cósmico de microondas, captada por la antena. Arno Penzias y Robert Wilson descubrieron ese fondo en 1964 como un ruido molesto en su antena, y ganaron el premio Nobel.</span></button>
+
+  <div class="quiz" data-quiz="uni">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="uni1" data-a="0"><p>La luz más vieja viajó 13 800 millones de años. ¿Por qué el universo observable mide 93 000 millones de años luz?</p><div class="qo">
+      <button>Porque el espacio se expandió mientras la luz viajaba</button>
+      <button>Porque la luz antigua era más rápida</button>
+      <button>Porque los telescopios tienen errores</button></div>
+      <div class="qx">La región que emitió esa luz siguió alejándose por la expansión. Hoy está a unos 46 000 millones de años luz de distancia.</div></div>
+    <div class="qq" data-id="uni2" data-a="1"><p>¿Dónde está el centro del universo?</p><div class="qo">
+      <button>En la Vía Láctea</button>
+      <button>No tiene un centro identificable: desde cualquier punto ves a los demás alejarse</button>
+      <button>En el punto donde explotó el Big Bang</button></div>
+      <div class="qx">El Big Bang ocurrió en todas partes a la vez. La simulación del pan con pasas lo muestra: cualquier galaxia se ve a sí misma como el centro.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c7" data-nav="Tu velocidad real">
+  <div class="cap-n">Capítulo 7</div>
+  <h2>Tu velocidad real, sentado leyendo esto</h2>
+  <div class="txt">
+    <p>Junta todos los giros que viste hasta ahora. Aunque sientas que estás quieto, te mueves con la Tierra que rota, con la Tierra que orbita al Sol, con el Sol que orbita la galaxia y con la galaxia que cae a través del espacio. No sientes nada porque todo lo que te rodea, el aire, la silla, el piso, viaja contigo a la misma velocidad. Solo notarías un cambio brusco de velocidad.</p>
+  </div>
+  <div class="lab">
+    <div class="lab-h"><b>Calculadora: ¿a qué velocidad viajas?</b><span>Las velocidades apuntan en direcciones distintas, así que no se suman directamente</span></div>
+    <div class="ctrl">
+      <label>Tu latitud <output id="velLatO">0°</output><input type="range" id="velLat" min="-90" max="90" step="0.5" value="0"></label>
+      <button class="btn vlb" data-l="-12">Perú (≈ −12°)</button>
+      <button class="btn vlb" data-l="0">Ecuador</button>
+      <button class="btn vlb" data-l="60">Noruega (60°)</button>
+    </div>
+    <div id="velBars"></div>
+    <div class="live" id="liveSun">0 km</div>
+    <div class="hint">Distancia que recorriste alrededor del Sol desde que abriste esta página.</div>
+    <div class="live" id="liveGal" style="color:var(--a2)">0 km</div>
+    <div class="hint">Distancia que recorriste alrededor del centro de la galaxia en el mismo tiempo.</div>
+  </div>
+</section>
+
+<section class="cap" id="c8" data-nav="El mundo cuántico">
+  <div class="cap-n">Capítulo 8</div>
+  <h2>El mundo cuántico: donde las cosas dejan de tener lugar fijo</h2>
+  <p class="scale-note">Un átomo mide unos 0,1 nanómetros. Su núcleo es 100 000 veces más pequeño.</p>
+  <div class="txt">
+    <p>Ahora damos la vuelta y bajamos. Si un átomo fuera un estadio de fútbol, su núcleo sería una arveja en el centro de la cancha, y los electrones ocuparían las tribunas como una neblina. Tu cuerpo, tu celular y las montañas están hechos casi por completo de espacio vacío. Lo que sientes como "sólido" son fuerzas eléctricas entre electrones.</p>
+    <p>A esta escala las reglas cambian. Las que siguen han sido comprobadas en millones de experimentos, aunque contradigan tu intuición:</p>
+    <p><strong>1. La energía viene en paquetes.</strong> Max Planck (1900) y Albert Einstein (1905) descubrieron que la luz se entrega en porciones mínimas llamadas fotones. Un electrón dentro de un átomo solo puede tener ciertas energías, como escalones sin rampa. Por eso cada elemento brilla con colores exactos: el rojo de un letrero de neón es la huella de los escalones del neón.</p>
+    <p><strong>2. Las partículas se comportan como ondas.</strong> Un electrón viaja como una onda que se extiende por el espacio y llega como una partícula en un solo punto. El experimento de la doble rendija lo muestra mejor que cualquier explicación.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: la doble rendija</b><span>Lanza electrones de uno en uno</span></div>
+    <div class="stage r169"><canvas id="dsCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn pri" id="ds1">Lanzar 1</button>
+      <button class="btn" id="dsBurst">▶ Ráfaga</button>
+      <label>Electrones por segundo <output id="dsRateO">40</output><input type="range" id="dsRate" min="2" max="400" step="1" value="40"></label>
+      <button class="btn" id="dsDet">Detector en las rendijas</button>
+      <button class="btn" id="dsClr">Limpiar</button>
+    </div>
+    <div class="read"><div>Impactos en la pantalla: <b id="dsN">0</b></div><div>Modo: <b id="dsMode">sin observar</b></div></div>
+    <div class="hint">Cada electrón cae en un punto al azar. Con decenas no ves nada especial. Con cientos aparecen franjas: cada electrón pasó como onda por las dos rendijas a la vez e interfirió consigo mismo. Activa el detector y las franjas desaparecen.</div>
+  </div>
+
+  <div class="txt">
+    <p><strong>3. Superposición y medición.</strong> Antes de medirlo, el electrón no está en un lugar definido: la teoría lo describe con una función de onda, que indica la probabilidad de encontrarlo en cada sitio. Al medir, obtienes un resultado concreto. Cuando pusiste el detector en las rendijas, obligaste a cada electrón a "elegir" una, y la interferencia desapareció.</p>
+    <p><strong>4. Incertidumbre.</strong> Werner Heisenberg mostró que hay pares de propiedades que no puedes conocer a la vez con precisión total, como la posición y el momento (masa por velocidad). El límite nace de la naturaleza ondulatoria de la materia: para que una onda esté concentrada en un punto, necesitas mezclar muchas longitudes de onda distintas, y eso deja la velocidad muy indefinida.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: principio de incertidumbre</b><span>Aprieta la posición y mira qué pasa con el momento</span></div>
+    <div class="stage r169"><canvas id="unCv"></canvas></div>
+    <div class="ctrl">
+      <label>Qué tan localizada está la partícula <output id="unSigO">-</output><input type="range" id="unSig" min="0.15" max="2.2" step="0.01" value="0.8"></label>
+    </div>
+    <div class="read"><div>Δx (posición): <b id="unDx">-</b></div><div>Δp (momento): <b id="unDp">-</b></div><div>Δx · Δp: <b id="unProd">-</b></div></div>
+  </div>
+
+  <div class="txt">
+    <p><strong>5. Los electrones no son planetitas.</strong> El dibujo clásico del átomo, con electrones girando en círculos, está equivocado. Un electrón en un átomo ocupa un <strong>orbital</strong>: una nube de probabilidad con forma definida. La simulación siguiente "mide" la posición del electrón miles de veces. Cada punto es una medición; la nube aparece sola.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: orbitales del hidrógeno</b><span>Corte transversal de la nube de probabilidad</span></div>
+    <div class="stage r11"><canvas id="orbCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn orbb on" data-o="1s">1s</button>
+      <button class="btn orbb" data-o="2p">2p</button>
+      <button class="btn orbb" data-o="3d">3d</button>
+    </div>
+    <div class="read"><div>Mediciones: <b id="orbN">0</b></div><div>Orbital: <b id="orbName">1s</b></div></div>
+  </div>
+
+  <div class="txt">
+    <p><strong>6. Entrelazamiento.</strong> Dos partículas pueden quedar ligadas de modo que medir una determina al instante el resultado de la otra, aunque estén separadas por kilómetros. Einstein lo llamó "acción fantasmal a distancia" y sospechaba que la teoría estaba incompleta. Los experimentos le dieron la razón a la mecánica cuántica: Alain Aspect, John Clauser y Anton Zeilinger ganaron el Nobel de Física 2022 por demostrarlo. Ojo: el entrelazamiento no permite enviar mensajes más rápido que la luz.</p>
+    <p>Todo esto parece filosofía, pero sostiene tu vida diaria. Los transistores de tu celular y tu laptop, los LED, los láseres, los paneles solares, la resonancia magnética y los relojes atómicos del GPS funcionan gracias a la mecánica cuántica.</p>
+  </div>
+
+  <div class="quiz" data-quiz="cua">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="cua1" data-a="1"><p>Si lanzas electrones de uno en uno contra dos rendijas, sin observar por cuál pasan, ¿qué aparece en la pantalla?</p><div class="qo">
+      <button>Dos franjas, una detrás de cada rendija</button>
+      <button>Muchas franjas de interferencia</button>
+      <button>Una mancha uniforme</button></div>
+      <div class="qx">Cada electrón se comporta como una onda que pasa por ambas rendijas e interfiere consigo mismo. El patrón surge al acumular muchos impactos.</div></div>
+    <div class="qq" data-id="cua2" data-a="0"><p>Según el principio de incertidumbre, si conoces la posición de una partícula con mucha precisión...</p><div class="qo">
+      <button>Su momento (y su velocidad) queda más indefinido</button>
+      <button>Conoces también su velocidad exacta</button>
+      <button>La partícula deja de existir</button></div>
+      <div class="qx">El producto Δx·Δp nunca baja de ħ/2. Mira la simulación: al apretar la onda en posición, se ensancha en momento.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c9" data-nav="Lo cuántico y lo cósmico">
+  <div class="cap-n">Capítulo 9</div>
+  <h2>Donde se tocan lo cuántico y lo cósmico</h2>
+  <div class="txt">
+    <p>Si las leyes cuánticas valen para todo, ¿por qué una pelota no pasa por dos rendijas a la vez? ¿Y qué tiene que ver un electrón con una galaxia? Bastante más de lo que parece. Aquí van las conexiones más importantes.</p>
+
+    <h3>El Sol brilla gracias a un truco cuántico</h3>
+    <p>En el centro del Sol, a 15 millones de grados, los núcleos de hidrógeno chocan para fusionarse en helio. Pero los núcleos tienen carga positiva y se repelen. Según la física clásica, necesitarían temperaturas cerca de mil veces mayores para vencer esa repulsión. Lo logran por <strong>efecto túnel</strong>: como son ondas, tienen una pequeña probabilidad de aparecer al otro lado de una barrera que, en teoría, no podrían cruzar. Sin efecto túnel no habría estrellas, ni luz del Sol, ni vida.</p>
+    <p>El mismo efecto aparece en tu bolsillo: la memoria flash de tu celular guarda los datos empujando electrones por túnel a través de una capa aislante.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: efecto túnel</b><span>Cambia el ancho y la altura de la barrera</span></div>
+    <div class="stage r21"><canvas id="tunCv"></canvas></div>
+    <div class="ctrl">
+      <label>Ancho de la barrera <output id="tunWO">-</output><input type="range" id="tunW" min="0.05" max="2.5" step="0.01" value="1"></label>
+      <label>Altura de la barrera <output id="tunHO">-</output><input type="range" id="tunH" min="1.05" max="4" step="0.01" value="1.6"></label>
+    </div>
+    <div class="read"><div>Probabilidad de cruzar: <b id="tunT">-</b></div></div>
+    <div class="hint">La onda entra en la barrera y decae, pero si la barrera es delgada, una parte sale del otro lado. Para una pelota contra una pared, la probabilidad tiene tantos ceros que nunca lo verías en toda la historia del universo.</div>
+  </div>
+
+  <div class="txt">
+    <h3>Por qué tu taza no está en dos lugares a la vez</h3>
+    <p>Un objeto grande está rodeado de aire, luz y calor. Cada molécula de aire que lo golpea y cada fotón que rebota en él "mide" su posición sin que nadie mire. Esa interacción constante destruye la superposición casi al instante. El fenómeno se llama <strong>decoherencia</strong>, y explica por qué el mundo macro se ve clásico. Lo cuántico sigue ahí; queda diluido en el entorno.</p>
+    <p>Los experimentos empujan esa frontera cada año. En 1999 se logró interferencia con moléculas de fullereno de 60 átomos de carbono, y en 2019 con moléculas de unos 2 000 átomos, siempre en alto vacío para evitar choques.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: decoherencia</b><span>Elige un objeto y prepara una superposición</span></div>
+    <div class="stage r169"><canvas id="decCv"></canvas></div>
+    <div class="ctrl">
+      <button class="btn decb on" data-k="0">Electrón en vacío</button>
+      <button class="btn decb" data-k="1">Molécula grande en vacío</button>
+      <button class="btn decb" data-k="2">Grano de polvo en el aire</button>
+      <button class="btn decb" data-k="3">Pelota en el aire</button>
+      <button class="btn pri" id="decGo">Preparar superposición</button>
+    </div>
+    <div class="read"><div>Coherencia: <b id="decCoh">100 %</b></div><div>Tiempo real de decoherencia: <b id="decTau">-</b></div></div>
+    <div class="hint">Las franjas entre las dos copias indican que el objeto sigue en superposición. Cada partícula del entorno que choca las borra un poco. La simulación va en cámara lenta; los tiempos reales son estimaciones teóricas de orden de magnitud.</div>
+  </div>
+
+  <div class="txt">
+    <h3>Cuatro fuerzas, cada una con su territorio</h3>
+    <p>Toda la naturaleza conocida funciona con cuatro fuerzas. La <strong>nuclear fuerte</strong> mantiene unidos los núcleos. La <strong>nuclear débil</strong> gobierna ciertas desintegraciones radiactivas y arranca la fusión en el Sol. La <strong>electromagnética</strong> arma átomos, moléculas, células y todo lo que tocas. La <strong>gravedad</strong> es, de lejos, la más débil: un pequeño imán levanta un clip contra la gravedad de todo el planeta. Pero la gravedad siempre atrae y se acumula, mientras las cargas eléctricas se cancelan. Por eso manda en planetas, estrellas y galaxias.</p>
+  </div>
+
+  <div class="lab">
+    <div class="lab-h"><b>Laboratorio: ¿qué fuerza manda aquí?</b><span>Mueve la escala</span></div>
+    <div class="ctrl"><label>Escala <output id="fScaleO">-</output><input type="range" id="fScale" min="-18" max="26" step="0.1" value="-10"></label></div>
+    <div class="fbars" id="fBars"></div>
+    <div class="hint" id="fTx" style="font-size:.92rem;color:var(--ink)"></div>
+  </div>
+
+  <div class="txt">
+    <h3>Las galaxias nacieron de temblores cuánticos</h3>
+    <p>Esta es quizá la conexión más asombrosa. Según la teoría de la <strong>inflación cósmica</strong>, en una fracción ínfima del primer segundo el universo se expandió a una velocidad descomunal. Las pequeñas fluctuaciones cuánticas de ese instante, temblores del tamaño de un átomo, quedaron estiradas hasta tamaños astronómicos. Se ven en el fondo cósmico de microondas como diferencias de temperatura de una parte en 100 000. Las zonas un poco más densas atrajeron más materia y, con el tiempo, formaron las galaxias. Si la idea es correcta, la Vía Láctea es un temblor cuántico amplificado.</p>
+
+    <h3>Estrellas sostenidas por una regla cuántica</h3>
+    <p>Cuando una estrella como el Sol agote su combustible, se encogerá hasta formar una <strong>enana blanca</strong> del tamaño de la Tierra. Lo que impide que siga colapsando es el principio de exclusión de Pauli: dos electrones no pueden ocupar el mismo estado cuántico, y esa regla los obliga a resistir la compresión. Si la estrella supera unas 1,4 masas solares, ni eso alcanza, y colapsa en una estrella de neutrones o en un agujero negro.</p>
+
+    <h3>Dos teorías que no se hablan</h3>
+    <p>La física tiene dos teorías extraordinarias. La <strong>relatividad general</strong> de Einstein describe la gravedad como la curvatura del espacio-tiempo y funciona perfecto con planetas, galaxias y ondas gravitacionales. La <strong>mecánica cuántica</strong> describe partículas y fuerzas con una precisión de hasta diez cifras decimales. Tu GPS usa las dos: relojes atómicos cuánticos, corregidos por la relatividad en unos 38 microsegundos por día. Sin esa corrección, el error de posición crecería unos 10 km cada día.</p>
+    <p>El problema aparece donde las dos importan al mismo tiempo: en el centro de un agujero negro y en el primer instante del Big Bang. Ahí las ecuaciones se rompen. Stephen Hawking dio una pista en 1974 al mostrar que, por efectos cuánticos, los agujeros negros deberían emitir una débil radiación y evaporarse lentamente. Unir ambas teorías en una <strong>gravedad cuántica</strong> es el mayor problema abierto de la física. La teoría de cuerdas y la gravedad cuántica de lazos son los dos intentos más conocidos, y ninguno tiene confirmación experimental.</p>
+    <p>Así termina el viaje: arriba, un universo que se estira sin borde conocido; abajo, partículas que no tienen lugar fijo hasta que interactúan. Entre ambos extremos quedas tú, hecho de átomos que se forjaron dentro de estrellas antiguas, leyendo sobre el cosmos que te formó.</p>
+  </div>
+  <button class="fact" data-f="f8"><span class="q">¿De dónde salieron los átomos de tu cuerpo?</span> <span class="tap">Toca para descubrir</span><span class="a">El hidrógeno de tu cuerpo se formó en los primeros minutos después del Big Bang. El carbono, el oxígeno y el nitrógeno se fabricaron por fusión dentro de estrellas que murieron antes de que naciera el Sol. Parte del hierro de tu sangre salió de explosiones de supernovas. Carl Sagan lo resumió así: estamos hechos de material de estrellas.</span></button>
+
+  <div class="quiz" data-quiz="pue">
+    <h4>Pon a prueba lo que leíste (+20 XP por acierto)</h4>
+    <div class="qq" data-id="pue1" data-a="2"><p>¿Qué fenómeno cuántico permite que el Sol fusione hidrógeno a "solo" 15 millones de grados?</p><div class="qo">
+      <button>El entrelazamiento</button>
+      <button>La decoherencia</button>
+      <button>El efecto túnel</button></div>
+      <div class="qx">Los núcleos cruzan por túnel la barrera de repulsión eléctrica. Sin ese efecto, el Sol necesitaría temperaturas unas mil veces mayores.</div></div>
+    <div class="qq" data-id="pue2" data-a="1"><p>¿Por qué no ves objetos grandes en superposición?</p><div class="qo">
+      <button>Porque las leyes cuánticas no se aplican a objetos grandes</button>
+      <button>Porque el entorno los "mide" constantemente y destruye la superposición</button>
+      <button>Porque son demasiado pesados para moverse</button></div>
+      <div class="qx">La decoherencia actúa en tiempos ínfimos para objetos grandes en contacto con aire o luz. Las leyes cuánticas siguen valiendo.</div></div>
+  </div>
+</section>
+
+<section class="cap" id="c10" data-nav="Tu carnet">
+  <div class="cap-n">Final</div>
+  <h2>Tu carnet de explorador</h2>
+  <div class="carnet">
+    <div style="color:var(--muted);font-size:.9rem">Rango actual</div>
+    <div class="big" id="cRank">Cadete terrestre</div>
+    <div style="font-family:var(--mono)" id="cXP">0 XP</div>
+    <div style="margin-top:6px;color:var(--muted);font-size:.9rem" id="cNext"></div>
+    <div class="achs" id="cAch"></div>
+    <div class="mb">
+      <button class="btn pri" id="cShare">Copiar mi resultado</button>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>Datos con valores redondeados a partir de mediciones de NASA, ESA y publicaciones científicas recientes. Las simulaciones simplifican la física para que puedas verla; las proporciones que no están a escala se indican en cada laboratorio.</footer>
+<script>
+(()=>{
+"use strict";
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const TAU=Math.PI*2, clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), lerp=(a,b,t)=>a+(b-a)*t;
+const fmt=(n,d=0)=>{const neg=n<0;let [i,f]=Math.abs(n).toFixed(d).split('.');if(i.length>4)i=i.replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f');return (neg?'−':'')+i+(f?','+f:'')};
+const SUP={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+const sup=n=>String(n).split('').map(c=>SUP[c]||c).join('');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Almacenamiento ---------- */
+const KEY='viajeCosmico_v1';
+const DEF={xp:0,ach:{},visited:{},quiz:{},facts:{},theme:null,haptic:true};
+let S;
+try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){S={...DEF}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+/* ---------- Vibración ---------- */
+let lastVib=0;
+function haptic(ms=8){if(!S.haptic||!navigator.vibrate)return;const n=performance.now();if(n-lastVib<45)return;lastVib=n;try{navigator.vibrate(ms)}catch(e){}}
+document.addEventListener('pointerdown',e=>{if(e.target.closest('button,.fact,a'))haptic(10)},{passive:true});
+document.addEventListener('input',e=>{if(e.target.type==='range')haptic(4)});
+
+/* ---------- Tema ---------- */
+const THEME_COL={oscuro:'#060912',claro:'#f3f5fa',bosque:'#0c1d15'};
+let C={};
+function readColors(){const cs=getComputedStyle(document.documentElement);['a1','a2','ink','muted','line','stage','ok','bad'].forEach(k=>C[k]=cs.getPropertyValue('--'+k).trim());}
+function setTheme(t){document.documentElement.dataset.theme=t;S.theme=t;save();$('meta[name=theme-color]').content=THEME_COL[t];
+  $$('.themes button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));readColors();}
+setTheme(S.theme||(matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro'));
+
+/* ---------- PWA: service worker e instalación ---------- */
+let deferredInstall=null;
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').then(reg=>{
+    const ask=w=>{if(!w)return;toast('🔄','Hay una versión nueva','Toca aquí para actualizar');const t=$('#toasts').lastChild;t.style.pointerEvents='auto';t.style.cursor='pointer';t.onclick=()=>w.postMessage('skipWaiting')};
+    if(reg.waiting&&navigator.serviceWorker.controller)ask(reg.waiting);
+    reg.addEventListener('updatefound',()=>{const w=reg.installing;w&&w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)ask(w)})});
+  }).catch(()=>{});
+  let reloaded=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!reloaded){reloaded=true;location.reload()}});});
+}
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+addEventListener('beforeinstallprompt',ev=>{ev.preventDefault();deferredInstall=ev;$('#instRow').style.display='flex'});
+addEventListener('appinstalled',()=>{$('#instRow').style.display='none';toast('📲','App instalada','Ya la tienes en tu pantalla de inicio')});
+document.addEventListener('DOMContentLoaded',()=>{});
+setTimeout(()=>{
+  if(standalone)return;
+  if(isIOS){$('#instRow').style.display='flex';$('#instTxt').textContent='En Safari toca Compartir y luego "Agregar a inicio"';$('#instBtn').style.display='none'}
+},0);
+$('#instBtn').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice.catch(()=>{});deferredInstall=null;$('#instRow').style.display='none'};
+
+/* ---------- Rangos y logros ---------- */
+const RANKS=[[0,'Cadete terrestre'],[60,'Navegante lunar'],[150,'Piloto solar'],[260,'Viajero planetario'],[380,'Explorador galáctico'],[520,'Cartógrafo cósmico'],[680,'Físico cuántico'],[850,'Cosmólogo']];
+const ACH=[
+ ['zoom','🔭','Primer zoom','Usaste el zoom cósmico'],
+ ['extremos','📏','De punta a punta','Llegaste a la escala de Planck y al universo observable'],
+ ['ciclo','🌕','Ciclo lunar','Viste un ciclo lunar completo'],
+ ['libre','🌑','Luna libre','Quitaste el acoplamiento de marea'],
+ ['plano','🧭','Sin estaciones','Pusiste el eje sin inclinación'],
+ ['neptuno','🔵','Hasta Neptuno','Tocaste el planeta más lejano'],
+ ['planetas','🪐','Censo planetario','Abriste la ficha de los ocho planetas'],
+ ['dinos','🦕','Un año galáctico','Viajaste al tiempo de los primeros dinosaurios'],
+ ['oscura','🌫️','Materia oscura','Comparaste las dos curvas de rotación'],
+ ['lactomeda','💥','Lactómeda','Completaste el choque de galaxias'],
+ ['centro','🍞','Todos son el centro','Te paraste en tres galaxias distintas'],
+ ['mil','⚛️','Mil electrones','Acumulaste 1 000 impactos en la doble rendija'],
+ ['observador','👁️','El observador','Pusiste un detector en las rendijas'],
+ ['orbitales','☁️','Nubes de probabilidad','Viste los tres orbitales'],
+ ['tunel','🚇','Atraviesa paredes','Lograste más de 30 % de túnel'],
+ ['colapso','🐈','Colapso','Viste decoherencia en un objeto grande'],
+ ['curioso','✦','Mente curiosa','Descubriste todos los datos ocultos'],
+ ['sabio','🎓','Sin fallas','Respondiste todas las preguntas al primer intento'],
+ ['lector','📖','Viaje completo','Recorriste todos los capítulos']
+];
+function rankOf(xp){let i=0;for(let k=0;k<RANKS.length;k++)if(xp>=RANKS[k][0])i=k;return i}
+function updXP(){
+  const i=rankOf(S.xp);$('#lvN').textContent=i+1;$('#rkName').textContent=RANKS[i][1];$('#xpTxt').textContent=fmt(S.xp)+' XP';
+  $('#cRank').textContent=RANKS[i][1];$('#cXP').textContent=fmt(S.xp)+' XP, '+Object.keys(S.ach).length+' de '+ACH.length+' logros';
+  $('#cNext').textContent=i<RANKS.length-1?('Te faltan '+(RANKS[i+1][0]-S.xp)+' XP para '+RANKS[i+1][1]+'.'):'Alcanzaste el rango máximo.';
+  $('#cAch').innerHTML=ACH.map(a=>`<div class="ach ${S.ach[a[0]]?'got':''}"><span class="ic">${a[1]}</span>${S.ach[a[0]]?a[2]:'???'}<small>${a[3]}</small></div>`).join('');
+}
+function toast(ic,title,sub){const t=document.createElement('div');t.className='toast';t.innerHTML=`<span class="ic">${ic}</span><div><b>${title}</b><small>${sub}</small></div>`;
+  const box=$('#toasts');box.appendChild(t);while(box.children.length>3)box.firstChild.remove();setTimeout(()=>{t.style.transition='opacity .4s';t.style.opacity='0';setTimeout(()=>t.remove(),450)},3200);}
+function addXP(n,x,y){
+  const before=rankOf(S.xp);S.xp+=n;save();updXP();
+  if(x!=null){const f=document.createElement('div');f.className='fly';f.textContent='+'+n+' XP';f.style.left=x+'px';f.style.top=y+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1000);}
+  const after=rankOf(S.xp);if(after>before){toast('🚀','Nuevo rango: '+RANKS[after][1],'Nivel '+(after+1));haptic(60);}
+}
+function unlock(id){if(S.ach[id])return;const a=ACH.find(a=>a[0]===id);if(!a)return;S.ach[id]=Date.now();save();toast(a[1],'Logro: '+a[2],a[3]+' · +25 XP');haptic(40);addXP(25);
+  if(Object.keys(S.ach).length===ACH.length)toast('🌌','Completaste todos los logros','Eres oficialmente cosmólogo de bolsillo');}
+
+/* ---------- Datos ocultos ---------- */
+$$('.fact').forEach(b=>{
+  if(S.facts[b.dataset.f])b.classList.add('open');
+  b.addEventListener('click',e=>{if(b.classList.contains('open'))return;b.classList.add('open');S.facts[b.dataset.f]=1;save();addXP(5,e.clientX,e.clientY);
+    if($$('.fact').every(f=>S.facts[f.dataset.f]))unlock('curioso');});
+});
+
+/* ---------- Quizzes ---------- */
+$$('.qq').forEach(q=>{
+  const id=q.dataset.id, ans=+q.dataset.a, bs=$$('button',q);
+  const mark=()=>{bs[ans].classList.add('ok');q.classList.add('done');};
+  if(S.quiz[id]){mark();if(S.quiz[id].pick!=null&&S.quiz[id].pick!==ans)bs[S.quiz[id].pick].classList.add('no');return;}
+  bs.forEach((b,i)=>b.addEventListener('click',e=>{
+    if(q.classList.contains('done'))return;
+    if(i===ans){const first=!q.dataset.miss;S.quiz[id]={first,pick:q.dataset.miss?+q.dataset.miss:null};save();mark();
+      addXP(first?20:8,e.clientX,e.clientY);haptic(25);
+      const all=$$('.qq');if(all.every(x=>S.quiz[x.dataset.id])&&all.every(x=>S.quiz[x.dataset.id].first))unlock('sabio');}
+    else{b.classList.add('no');q.dataset.miss=i;haptic([20,40,20]);}
+  }));
+});
+
+/* ---------- Navegación, progreso y capítulos visitados ---------- */
+const caps=$$('[data-nav]');
+$('#navList').innerHTML=caps.map(c=>`<a href="#${c.id}" data-id="${c.id}"><span class="ck">✓</span>${c.dataset.nav}</a>`).join('');
+const drawer=$('#drawer'),scrim=$('#scrim');
+const openD=o=>{drawer.classList.toggle('on',o);scrim.classList.toggle('on',o)};
+$('#menuBtn').onclick=()=>openD(true);scrim.onclick=()=>openD(false);
+$$('#navList a').forEach(a=>a.onclick=()=>openD(false));
+function markNav(){$$('#navList a').forEach(a=>a.classList.toggle('v',!!S.visited[a.dataset.id]))}
+markNav();
+const vio=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting&&!S.visited[e.target.id]){S.visited[e.target.id]=1;save();markNav();if(e.target.id!=='c0')addXP(10);
+    if(caps.every(c=>S.visited[c.id]))unlock('lector');}
+}),{rootMargin:'0px 0px -55% 0px'});
+caps.forEach(c=>vio.observe(c));
+addEventListener('scroll',()=>{const h=document.documentElement;$('#progBar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100||0)+'%'},{passive:true});
+$('#xpChip').onclick=()=>$('#c10').scrollIntoView({behavior:reduce?'auto':'smooth'});
+
+/* ---------- Ajustes ---------- */
+const modal=$('#setModal');
+$('#setBtn').onclick=()=>modal.classList.add('on');
+$('#setClose').onclick=()=>modal.classList.remove('on');
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('on')});
+$$('.themes button').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+const hapTog=$('#hapTog');hapTog.classList.toggle('on',S.haptic);
+hapTog.onclick=()=>{S.haptic=!S.haptic;save();hapTog.classList.toggle('on',S.haptic);haptic(20)};
+$('#resetBtn').onclick=()=>{if(confirm('¿Borrar todo tu progreso, puntos y logros?')){const t=S.theme,h=S.haptic;S={...DEF,ach:{},visited:{},quiz:{},facts:{},theme:t,haptic:h};save();location.reload();}};
+$('#cShare').onclick=()=>{const i=rankOf(S.xp);const txt=`Llegué al rango "${RANKS[i][1]}" en Viaje cósmico con ${S.xp} XP y ${Object.keys(S.ach).length} de ${ACH.length} logros. 🌌`;
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('📋','Resultado copiado','Pégalo donde quieras')).catch(()=>prompt('Copia tu resultado:',txt));};
+addEventListener('keydown',e=>{if(e.key==='Escape'){modal.classList.remove('on');openD(false)}});
+updXP();
+
+/* ---------- Motor de escenarios (canvas) ---------- */
+function stage(id,frame,opt={}){
+  const cv=document.getElementById(id),ctx=cv.getContext('2d');
+  const st={cv,ctx,w:0,h:0,t:0,vis:false,run:false,last:0,dirty:true};
+  function resize(){const r=cv.getBoundingClientRect();if(!r.width)return;const d=Math.min(devicePixelRatio||1,2);
+    cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0);st.w=r.width;st.h=r.height;st.dpr=d;st.dirty=true;opt.onResize&&opt.onResize(st);if(!st.run)draw(performance.now());}
+  function draw(now){const dt=Math.min(.05,(now-st.last)/1000||0);st.last=now;st.t+=dt;frame(ctx,st,dt);}
+  function loop(now){if(!st.vis){st.run=false;return}draw(now);requestAnimationFrame(loop)}
+  new ResizeObserver(resize).observe(cv);
+  new IntersectionObserver(es=>{st.vis=es[0].isIntersecting;if(st.vis&&!st.run){st.run=true;st.last=performance.now();requestAnimationFrame(loop)}},{rootMargin:'80px'}).observe(cv);
+  resize();
+  return st;
+}
+function ptr(cv,e){const r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+function toggleBtn(b,on){b.classList.toggle('on',on)}
+function hash(i){const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)}
+function glow(ctx,x,y,r,col,a=1){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'rgba(0,0,0,0)');ctx.globalAlpha=a;ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();ctx.globalAlpha=1}
+function stars(ctx,w,h,n,seed=1,a=.7){ctx.fillStyle='#fff';for(let i=0;i<n;i++){ctx.globalAlpha=a*(.25+.75*hash(i*3+seed));const s=hash(i*7+seed)<.08?1.6:.9;ctx.fillRect(hash(i+seed*13)*w,hash(i*5+seed*29)*h,s,s)}ctx.globalAlpha=1}
+const INK='#e8ecf6',DIM='rgba(220,228,245,.55)';
+
+/* =========================================================
+   ZOOM CÓSMICO
+   ========================================================= */
+const AU=1.496e11, LY=9.461e15;
+const OBJ=[
+ {n:'Longitud de Planck',s:1.6e-35,k:'foam',f:'La escala más pequeña con sentido físico conocido. Aquí la gravedad y la mecánica cuántica deberían fusionarse, y el espacio podría volverse una espuma burbujeante.'},
+ {n:'Electrón',s:1e-18,k:'point',f:'Hasta donde podemos medir, el electrón no tiene tamaño. Los experimentos solo dicen que es menor que 10⁻¹⁸ m.'},
+ {n:'Protón',s:1.7e-15,k:'proton',f:'Tres quarks unidos por gluones. El 99 % de su masa sale de la energía del enlace entre ellos.'},
+ {n:'Núcleo de oro',s:1.4e-14,k:'nucleus',f:'79 protones y 118 neutrones apretados por la fuerza nuclear fuerte.'},
+ {n:'Átomo de hidrógeno',s:1.06e-10,k:'atom',f:'Un protón y un electrón convertido en nube de probabilidad. Si el átomo fuera un estadio, el núcleo sería una arveja.'},
+ {n:'Molécula de ADN',s:2e-9,k:'helix',f:'La doble hélice mide 2 nanómetros de ancho. El ADN de una sola de tus células, estirado, mediría unos 2 metros.'},
+ {n:'Virus de la gripe',s:1e-7,k:'virus',f:'Unos 100 nanómetros. Necesitas un microscopio electrónico para verlo.'},
+ {n:'Glóbulo rojo',s:8e-6,k:'cell',f:'Tienes unos 25 billones circulando por tu cuerpo. Cada uno completa el circuito en alrededor de un minuto.'},
+ {n:'Grano de arena',s:5e-4,k:'grain',f:'Medio milímetro. Hay más estrellas en el universo observable que granos de arena en todas las playas de la Tierra.'},
+ {n:'Ser humano',s:1.7,k:'human',f:'Tú. En escala logarítmica estás cerca del punto medio entre la longitud de Planck y el universo observable.'},
+ {n:'Tierra',s:1.2742e7,k:'earth',f:'12 742 km de diámetro. La atmósfera que respiras es, en proporción, más delgada que la cáscara de una manzana.'},
+ {n:'Órbita de la Luna',s:7.688e8,k:'moonorb',f:'384 400 km de radio. Entre la Tierra y la Luna cabrían todos los demás planetas puestos en fila.'},
+ {n:'Sol',s:1.3927e9,k:'sun',x:AU,f:'1,39 millones de km de diámetro: más ancho que toda la órbita de la Luna.'},
+ {n:'Órbita de la Tierra',s:2*AU,k:'orbit',x:AU,c:'#38bdf8',f:'149,6 millones de km de radio. La luz del Sol tarda 8 minutos y 20 segundos en llegarte.'},
+ {n:'Órbita de Júpiter',s:2*5.2*AU,k:'orbit',x:AU,c:'#f0b27a',f:'Júpiter tarda 12 años en dar la vuelta y tiene más del doble de la masa de todos los demás planetas juntos.'},
+ {n:'Órbita de Neptuno',s:2*30.07*AU,k:'orbit',x:AU,c:'#7c9cff',f:'30 UA. La luz del Sol tarda más de 4 horas en llegar hasta allí.'},
+ {n:'Heliosfera',s:2*121*AU,k:'helio',x:AU,f:'La burbuja que infla el viento solar. La sonda Voyager 1 salió de ella en 2012.'},
+ {n:'Nube de Oort',s:2e5*AU,k:'oort',x:AU,f:'Una esfera de billones de cometas helados. Su borde estaría a más de un año y medio luz del Sol.'},
+ {n:'Próxima Centauri',s:2*4.24*LY,k:'proxima',x:AU,f:'La estrella más cercana al Sol, a 4,24 años luz. La nave más rápida que hemos construido tardaría miles de años en llegar.'},
+ {n:'Vía Láctea',s:1e5*LY,k:'galaxy',x:AU,f:'Unos 100 000 años luz y cientos de miles de millones de estrellas. El punto naranja marca dónde estás.'},
+ {n:'Grupo Local',s:1e7*LY,k:'group',f:'Más de 80 galaxias. Las dos grandes son la Vía Láctea y Andrómeda.'},
+ {n:'Supercúmulo Laniakea',s:5.2e8*LY,k:'web',seed:3,f:'Unas 100 000 galaxias que fluyen hacia una región llamada el Gran Atractor.'},
+ {n:'Universo observable',s:9.3e10*LY,k:'web',seed:11,edge:1,f:'93 000 millones de años luz de diámetro. Más allá del borde hay más universo, pero su luz todavía no nos alcanza.'}
+];
+// galaxia precalculada (unidad = radio)
+function makeGalaxy(N,seed){const pts=[];let s=seed;const R=()=>{s=(s*16807)%2147483647;return s/2147483647};
+  const pitch=Math.tan(13*Math.PI/180);
+  for(let i=0;i<N;i++){const t=R();
+    if(t<.14){const a=R()*TAU,r=Math.abs((R()+R()+R()-1.5))*0.13;pts.push([r*Math.cos(a),r*Math.sin(a),1]);continue}
+    if(t<.24){const u=(R()-.5)*.5,v=(R()-.5)*.06;const an=.45;pts.push([u*Math.cos(an)-v*Math.sin(an),u*Math.sin(an)+v*Math.cos(an),1]);continue}
+    const arm=Math.floor(R()*4),off=arm*Math.PI/2+(arm%2?0.15:0);const r=.12+.88*Math.pow(R(),.75);
+    const th=off+Math.log(r/.12)/pitch+(R()-.5)*.35;const sc=.02+.05*r;
+    pts.push([r*Math.cos(th)+(R()-.5)*sc*2,r*Math.sin(th)+(R()-.5)*sc*2,arm%2?3:2]);}
+  return pts;}
+const GAL=makeGalaxy(1700,7);
+function makeWeb(seed,n){let s=seed*9301+7;const R=()=>{s=(s*16807)%2147483647;return s/2147483647};
+  const nodes=[];for(let i=0;i<n;i++)nodes.push([R()*2-1,R()*2-1]);
+  const edges=[];nodes.forEach((a,i)=>{const d=nodes.map((b,j)=>[j,(a[0]-b[0])**2+(a[1]-b[1])**2]).sort((x,y)=>x[1]-y[1]);for(let k=1;k<=2;k++)edges.push([i,d[k][0]])});
+  const dots=[];edges.forEach(([i,j])=>{const a=nodes[i],b=nodes[j];for(let k=0;k<14;k++){const t=R();dots.push([lerp(a[0],b[0],t)+(R()-.5)*.03,lerp(a[1],b[1],t)+(R()-.5)*.03])}});
+  return{nodes,dots};}
+const WEBS={3:makeWeb(3,40),11:makeWeb(11,70)};
+
+function drawObj(ctx,o,x,y,r,a,t){
+  ctx.save();ctx.globalAlpha=a;
+  switch(o.k){
+  case 'foam':{for(let i=0;i<70;i++){const fl=Math.floor(t*6+i*.37);const px=x+(hash(i*3+fl)-.5)*r*2.2,py=y+(hash(i*7+fl*3)-.5)*r*1.6;const rr=r*(.05+.12*hash(i+fl*11));
+      ctx.globalAlpha=a*.5*hash(i*13+fl);glow(ctx,px,py,rr,i%2?'#67e8f9':'#c4b5fd',a*.6)}break}
+  case 'point':glow(ctx,x,y,Math.max(r*3,6),'#67e8f9',a);ctx.fillStyle='#e0fbff';ctx.beginPath();ctx.arc(x,y,Math.max(r,1.5),0,TAU);ctx.fill();break;
+  case 'proton':{glow(ctx,x,y,r*1.2,'rgba(245,158,11,.45)',a);ctx.strokeStyle='rgba(255,200,120,.5)';ctx.lineWidth=1;
+      const q=[[ '#ef4444',0],['#22c55e',TAU/3],['#3b82f6',2*TAU/3]];const pts=q.map(([c,o2])=>[x+Math.cos(t*.8+o2)*r*.45,y+Math.sin(t*.8+o2)*r*.45,c]);
+      ctx.beginPath();pts.forEach((p,i)=>{const n=pts[(i+1)%3];ctx.moveTo(p[0],p[1]);ctx.quadraticCurveTo(x+Math.sin(t*5+i)*r*.2,y+Math.cos(t*4+i)*r*.2,n[0],n[1])});ctx.stroke();
+      pts.forEach(p=>{ctx.fillStyle=p[2];ctx.beginPath();ctx.arc(p[0],p[1],r*.17,0,TAU);ctx.fill()});break}
+  case 'nucleus':{for(let i=0;i<26;i++){const ang=i*2.39996,rr=r*.78*Math.sqrt((i+.5)/26);ctx.fillStyle=i%2?'#f59e0b':'#94a3b8';
+      ctx.beginPath();ctx.arc(x+Math.cos(ang)*rr+Math.sin(t*3+i)*r*.02,y+Math.sin(ang)*rr,r*.2,0,TAU);ctx.fill()}break}
+  case 'atom':{glow(ctx,x,y,r,'rgba(6,182,212,.55)',a);for(let i=0;i<24;i++){const fl=Math.floor(t*10)+i*31;const rr=r*Math.sqrt(hash(fl))*.9,an=hash(fl*7)*TAU;
+      ctx.fillStyle='#a5f3fc';ctx.globalAlpha=a*.7;ctx.fillRect(x+Math.cos(an)*rr,y+Math.sin(an)*rr,1.6,1.6)}ctx.globalAlpha=a;ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(x,y,1.6,0,TAU);ctx.fill();break}
+  case 'helix':{ctx.lineWidth=Math.max(1,r*.12);for(let s=0;s<2;s++){ctx.strokeStyle=s?'#f59e0b':'#06b6d4';ctx.beginPath();
+      for(let i=0;i<=120;i++){const u=-4+i/15;const px=x+u*r,py=y+Math.sin(u*2+t+s*Math.PI)*r;i?ctx.lineTo(px,py):ctx.moveTo(px,py)}ctx.stroke()}
+      ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=Math.max(.7,r*.05);for(let i=0;i<=32;i++){const u=-4+i/4;const px=x+u*r;ctx.beginPath();ctx.moveTo(px,y+Math.sin(u*2+t)*r);ctx.lineTo(px,y+Math.sin(u*2+t+Math.PI)*r);ctx.stroke()}break}
+  case 'virus':{ctx.strokeStyle='#fca5a5';ctx.lineWidth=Math.max(1,r*.06);for(let i=0;i<18;i++){const an=i/18*TAU+t*.1;ctx.beginPath();ctx.moveTo(x+Math.cos(an)*r*.8,y+Math.sin(an)*r*.8);ctx.lineTo(x+Math.cos(an)*r*1.15,y+Math.sin(an)*r*1.15);ctx.stroke();ctx.fillStyle='#fca5a5';ctx.beginPath();ctx.arc(x+Math.cos(an)*r*1.18,y+Math.sin(an)*r*1.18,r*.07,0,TAU);ctx.fill()}
+      ctx.fillStyle='rgba(239,68,68,.5)';ctx.beginPath();ctx.arc(x,y,r*.82,0,TAU);ctx.fill();break}
+  case 'cell':{const g=ctx.createRadialGradient(x,y,r*.1,x,y,r);g.addColorStop(0,'#7f1d1d');g.addColorStop(.55,'#b91c1c');g.addColorStop(1,'#ef4444');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();break}
+  case 'grain':{ctx.fillStyle='#d6b98a';ctx.beginPath();for(let i=0;i<9;i++){const an=i/9*TAU,rr=r*(.75+.25*hash(i+3));i?ctx.lineTo(x+Math.cos(an)*rr,y+Math.sin(an)*rr):ctx.moveTo(x+Math.cos(an)*rr,y+Math.sin(an)*rr)}ctx.closePath();ctx.fill();break}
+  case 'human':{const H=r*2,lw=Math.max(1.2,H*.05);ctx.strokeStyle='#f3f4f6';ctx.fillStyle='#f3f4f6';ctx.lineWidth=lw;ctx.lineCap='round';
+      const top=y-r;ctx.beginPath();ctx.arc(x,top+H*.09,H*.08,0,TAU);ctx.fill();ctx.beginPath();ctx.moveTo(x,top+H*.18);ctx.lineTo(x,top+H*.58);
+      ctx.moveTo(x-H*.18,top+H*.3);ctx.lineTo(x+H*.18,top+H*.3);ctx.moveTo(x,top+H*.58);ctx.lineTo(x-H*.12,top+H);ctx.moveTo(x,top+H*.58);ctx.lineTo(x+H*.12,top+H);ctx.stroke();break}
+  case 'earth':{const g=ctx.createRadialGradient(x-r*.3,y-r*.3,r*.1,x,y,r);g.addColorStop(0,'#7dd3fc');g.addColorStop(.6,'#1d4ed8');g.addColorStop(1,'#0b1f4d');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+      ctx.save();ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.clip();ctx.fillStyle='rgba(74,160,90,.55)';for(let i=0;i<9;i++){ctx.beginPath();ctx.ellipse(x+(hash(i)-.5)*r*1.5,y+(hash(i+9)-.5)*r*1.4,r*(.08+.16*hash(i+4)),r*(.05+.11*hash(i+2)),hash(i+6)*3,0,TAU);ctx.fill()}
+      ctx.fillStyle='rgba(255,255,255,.25)';for(let i=0;i<5;i++){ctx.beginPath();ctx.ellipse(x+(hash(i+40)-.5)*r*1.6,y+(hash(i+50)-.5)*r*1.6,r*.25,r*.04,hash(i+60)*3,0,TAU);ctx.fill()}
+      const sh=ctx.createLinearGradient(x-r,0,x+r*.2,0);sh.addColorStop(0,'rgba(0,0,0,.75)');sh.addColorStop(.55,'rgba(0,0,0,.55)');sh.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=sh;ctx.fillRect(x-r,y-r,r*1.2,r*2);ctx.restore();ctx.strokeStyle='rgba(125,211,252,.5)';ctx.lineWidth=Math.max(1,r*.03);ctx.beginPath();ctx.arc(x,y,r*1.02,0,TAU);ctx.stroke();break}
+  case 'moonorb':{ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(200,210,230,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.stroke();ctx.setLineDash([]);
+      const an=t*.25;ctx.fillStyle='#d1d5db';ctx.beginPath();ctx.arc(x+Math.cos(an)*r,y+Math.sin(an)*r,Math.max(2,r*.0045),0,TAU);ctx.fill();break}
+  case 'sun':{glow(ctx,x,y,r*1.6,'rgba(253,186,116,.5)',a);const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,'#fff7d6');g.addColorStop(.7,'#fbbf24');g.addColorStop(1,'#f97316');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();break}
+  case 'orbit':{ctx.strokeStyle=o.c;ctx.globalAlpha=a*.6;ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.stroke();ctx.globalAlpha=a;
+      if(o.n==='Órbita de la Tierra'){ctx.fillStyle=o.c;ctx.beginPath();ctx.arc(x-r,y,3,0,TAU);ctx.fill()}else{const an=-2.2+hash(r|0)*0;ctx.fillStyle=o.c;ctx.beginPath();ctx.arc(x+Math.cos(an)*r,y+Math.sin(an)*r,3,0,TAU);ctx.fill()}
+      glow(ctx,x,y,Math.max(3,r*.03),'#fde68a',a);break}
+  case 'helio':{const g=ctx.createRadialGradient(x,y,r*.7,x,y,r);g.addColorStop(0,'rgba(6,182,212,0)');g.addColorStop(.9,'rgba(6,182,212,.22)');g.addColorStop(1,'rgba(6,182,212,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();glow(ctx,x,y,4,'#fde68a',a);break}
+  case 'oort':{ctx.fillStyle='#cbd5e1';for(let i=0;i<420;i++){const an=hash(i)*TAU,rr=r*(.2+.8*Math.sqrt(hash(i*3+1)));ctx.globalAlpha=a*.45;ctx.fillRect(x+Math.cos(an)*rr,y+Math.sin(an)*rr,1,1)}ctx.globalAlpha=a;glow(ctx,x,y,4,'#fde68a',a);break}
+  case 'proxima':{const px=x+Math.cos(-1.1)*r,py=y+Math.sin(-1.1)*r;ctx.setLineDash([3,5]);ctx.strokeStyle='rgba(255,255,255,.3)';ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(px,py);ctx.stroke();ctx.setLineDash([]);
+      glow(ctx,px,py,9,'#f87171',a);glow(ctx,x,y,7,'#fde68a',a);break}
+  case 'galaxy':{const gx=x-r*.52,gy=y;glow(ctx,gx,gy,r*.35,'rgba(253,224,171,.5)',a);
+      for(const p of GAL){ctx.fillStyle=p[2]===1?'#fde7b0':p[2]===2?'#dbeafe':'#c7d2fe';ctx.globalAlpha=a*(p[2]===1?.8:.55);ctx.fillRect(gx+p[0]*r,gy+p[1]*r,1.3,1.3)}
+      ctx.globalAlpha=a;ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(x,y,3.5,0,TAU);ctx.fill();break}
+  case 'group':{const mem=[[0,0,.12,1],[.5,.08,.16,1],[.42,.18,.06,0],[-.3,.4,.04,0],[.2,-.5,.05,0],[-.55,-.2,.03,0],[.62,-.3,.03,0],[-.1,.15,.03,0],[.08,-.12,.025,0]];
+      mem.forEach(([u,v,sz,sp],i)=>{const gx=x+u*r,gy=y+v*r,gr=sz*r;if(sp){glow(ctx,gx,gy,gr*.5,'rgba(253,224,171,.6)',a);ctx.save();ctx.translate(gx,gy);ctx.rotate(i*1.3);ctx.scale(1,.45);
+        for(let k=0;k<GAL.length;k+=5){const p=GAL[k];ctx.fillStyle='#dbeafe';ctx.globalAlpha=a*.5;ctx.fillRect(p[0]*gr,p[1]*gr,1.2/0.45*0+1.2,1.2)}ctx.restore()}else glow(ctx,gx,gy,Math.max(2,gr),'rgba(220,230,255,.7)',a)});
+      ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(x,y,3,0,TAU);ctx.fill();break}
+  case 'web':{const W=WEBS[o.seed];for(const d of W.dots){ctx.fillStyle=o.edge?'#a78bfa':'#93c5fd';ctx.globalAlpha=a*.5;ctx.fillRect(x+d[0]*r,y+d[1]*r,1.2,1.2)}
+      for(const nd of W.nodes)glow(ctx,x+nd[0]*r,y+nd[1]*r,Math.max(2,r*.025),'rgba(253,230,190,.8)',a);
+      if(o.edge){const g=ctx.createRadialGradient(x,y,r*.85,x,y,r*1.05);g.addColorStop(0,'rgba(251,146,60,0)');g.addColorStop(.6,'rgba(251,146,60,.25)');g.addColorStop(1,'rgba(251,146,60,0)');ctx.globalAlpha=a;ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*1.05,0,TAU);ctx.fill()}
+      ctx.globalAlpha=a;ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(x,y,2.5,0,TAU);ctx.fill();break}
+  }
+  ctx.restore();
+}
+function fmtLen(m){
+  const sci=v=>{const e=Math.floor(Math.log10(v));const mant=v/10**e;return (mant<1.05?'':fmt(mant,1)+' × ')+'10'+sup(e)};
+  if(m<1e-9)return sci(m)+' m';
+  if(m<1e-6)return fmt(m*1e9,m<1e-8?1:0)+' nanómetros';
+  if(m<1e-3)return fmt(m*1e6,m<1e-5?1:0)+' micrómetros';
+  if(m<1)return fmt(m*1e3,m<1e-2?1:0)+' mm';
+  if(m<1e3)return fmt(m,1)+' m';
+  if(m<1e9)return fmt(m/1e3)+' km';
+  if(m<1e15)return m<1.5e10?fmt(m/1e9,1)+' millones de km':fmt(m/AU,m<1e13?1:0)+' UA';
+  const ly=m/LY;if(ly<1e3)return fmt(ly,1)+' años luz';if(ly<1e6)return fmt(ly)+' años luz';if(ly<1e9)return fmt(ly/1e6)+' millones de años luz';return fmt(ly/1e9)+' mil millones de años luz';
+}
+(function zoom(){
+  const range=$('#zRange');let e=+range.value,tour=false,minE=99,maxE=-99,touched=false,lastFocus='';
+  const smooth=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t)};
+  function setE(v,user){e=clamp(v,-35,27);range.value=e;if(user&&!touched){touched=true;unlock('zoom')}minE=Math.min(minE,e);maxE=Math.max(maxE,e);if(minE<=-34.5&&maxE>=26.5)unlock('extremos')}
+  range.addEventListener('input',()=>{tour=false;$('#zTour').textContent='▶ Recorrido';setE(+range.value,true)});
+  $('#zMinus').onclick=()=>setE(e-1,true);$('#zPlus').onclick=()=>setE(e+1,true);
+  $('#zTour').onclick=()=>{tour=!tour;$('#zTour').textContent=tour?'⏸ Detener':'▶ Recorrido';if(tour){if(e>26)setE(-35,true);touched||unlock('zoom');touched=true}};
+  const cv=$('#zoomCv');
+  cv.addEventListener('wheel',ev=>{ev.preventDefault();tour=false;setE(e+ev.deltaY*.0035,true)},{passive:false});
+  const pts=new Map();let d0=0,e0=0;
+  cv.addEventListener('pointerdown',ev=>{pts.set(ev.pointerId,ev);if(pts.size===2){const [a,b]=[...pts.values()];d0=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);e0=e}});
+  cv.addEventListener('pointermove',ev=>{if(!pts.has(ev.pointerId))return;pts.set(ev.pointerId,ev);if(pts.size===2&&d0){const [a,b]=[...pts.values()];const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);tour=false;setE(e0-Math.log10(d/d0)*2.2,true)}});
+  const up=ev=>{pts.delete(ev.pointerId);if(pts.size<2)d0=0};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  stage('zoomCv',(ctx,s,dt)=>{
+    if(tour){setE(e+dt*1.25,false);if(e>=27){tour=false;$('#zTour').textContent='▶ Recorrido'}}
+    const W=s.w,H=s.h;ctx.fillStyle=C.stage||'#02040a';ctx.fillRect(0,0,W,H);
+    stars(ctx,W,H,160,5,.35*smooth(4,9,e)+.12);
+    const wide=W>=900,Wref=wide?Math.min(W*.5,H*.78):Math.min(W*.95,H*.5),view=10**e,k=Wref/view,cx=wide?W*.7:W/2,cy=wide?H*.52:H*.5;
+    const camX=smooth(9.2,11.4,e)*AU;
+    const vis=[];
+    for(const o of OBJ){const r=o.s/2*k;if(r<1.2||r>Wref*5)continue;const a=clamp((r-1.2)/10,0,1)*clamp((Wref*5-r)/(Wref*3.5),0,1);
+      const x=cx+((o.x||0)-camX)*k;vis.push({o,r,a,x})}
+    vis.sort((p,q)=>q.r-p.r).forEach(v=>drawObj(ctx,v.o,v.x,cy,v.r,v.a,s.t));
+    ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='center';
+    vis.forEach(v=>{if(v.r>14&&v.r<Wref*.55&&v.a>.6){const ly=cy+v.r+16;if((wide||ly<H*.68)&&v.o.k!=='foam'&&ly<H-10){ctx.fillStyle=DIM;ctx.fillText(v.o.n,v.x,ly)}}});
+    // foco
+    let best=null,bd=1e9;for(const v of vis){if(v.r<Wref*.04||v.r>Wref*1.3)continue;const d=Math.abs(Math.log(v.r/(Wref*.3)));if(d<bd){bd=d;best=v}}
+    let name,size,fact;
+    if(best){name=best.o.n;size=fmtLen(best.o.s);fact=best.o.f}
+    else if(e<-18.5&&e>-34){name='El gran desierto de escalas';size='entre 10⁻³⁴ y 10⁻¹⁸ m';fact='Aquí no conocemos nada. Entre la longitud de Planck y el electrón hay 16 órdenes de magnitud sin ningún objeto ni fenómeno medido: la zona inexplorada más grande de la física.'}
+    else if(e>16.5&&e<20.5){name='Espacio interestelar';size='años luz de casi nada';fact='Las estrellas están separadas por distancias enormes. Entre ellas hay apenas un átomo de gas por cada centímetro cúbico.'}
+    else{name='Sigue moviendo la barra';size='';fact='Entre un objeto y el siguiente, el espacio queda vacío a esta escala.'}
+    if(name!==lastFocus){lastFocus=name;$('#zName').textContent=name;$('#zSize').textContent=size;$('#zFact').textContent=fact}
+    $('#zView').textContent='Ancho de la vista: '+fmtLen(view);
+  });
+})();
+
+/* =========================================================
+   LUNA
+   ========================================================= */
+function drawPhase(ctx,x,y,r,f,south){
+  ctx.fillStyle='#1f2533';ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+  const k=Math.cos(TAU*f);let litRight=f<.5;if(south)litRight=!litRight;
+  ctx.save();ctx.translate(x,y);if(!litRight)ctx.scale(-1,1);
+  ctx.fillStyle='#e8e4d8';ctx.beginPath();ctx.arc(0,0,r,-Math.PI/2,Math.PI/2,false);ctx.ellipse(0,0,r*Math.abs(k),r,0,Math.PI/2,-Math.PI/2,k>0);ctx.fill();ctx.restore();
+  ctx.strokeStyle='rgba(255,255,255,.15)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.stroke();
+}
+function phaseName(f){if(f<.03||f>.97)return'Luna nueva';if(f<.22)return'Luna creciente';if(f<.28)return'Cuarto creciente';if(f<.47)return'Gibosa creciente';if(f<.53)return'Luna llena';if(f<.72)return'Gibosa menguante';if(f<.78)return'Cuarto menguante';return'Luna menguante'}
+(function moon(){
+  let th=2.4,play=true,spd=2,tide=false,lock=true,bary=false,real=false,south=true,acc=0,rot=0,drag=false;
+  const B=id=>$('#'+id);
+  B('moonPlay').onclick=()=>{play=!play;toggleBtn(B('moonPlay'),play);B('moonPlay').textContent=play?'⏸ Pausa':'▶ Seguir'};
+  B('moonSpd').oninput=e=>{spd=+e.target.value;B('moonSpdO').textContent=fmt(spd,1)+' días/s'};
+  B('moonTide').onclick=()=>{tide=!tide;toggleBtn(B('moonTide'),tide)};
+  B('moonLock').onclick=()=>{lock=!lock;toggleBtn(B('moonLock'),lock);if(!lock)unlock('libre')};
+  B('moonBary').onclick=()=>{bary=!bary;toggleBtn(B('moonBary'),bary)};
+  B('moonReal').onclick=()=>{real=!real;toggleBtn(B('moonReal'),real)};
+  B('moonHemi').onclick=()=>{south=!south;B('moonHemi').textContent='Visto desde: hemisferio '+(south?'sur':'norte')};
+  let geo={cx:0,cy:0};
+  const cv=B('moonCv');
+  const setFrom=ev=>{const p=ptr(cv,ev);th=(Math.atan2(-(p.y-geo.cy),p.x-geo.cx)+TAU)%TAU};
+  cv.addEventListener('pointerdown',ev=>{drag=true;cv.setPointerCapture(ev.pointerId);setFrom(ev)});
+  cv.addEventListener('pointermove',ev=>{if(drag)setFrom(ev)});
+  cv.addEventListener('pointerup',()=>drag=false);cv.addEventListener('pointercancel',()=>drag=false);
+  let lastTx='';
+  stage('moonCv',(ctx,s,dt)=>{
+    if(play&&!drag){const d=spd*dt;th=(th+TAU*d/29.53)%TAU;acc+=d;rot+=TAU*d;if(acc>=29.53)unlock('ciclo')}
+    const W=s.w,H=s.h,bs=Math.min(Math.min(W,H)*.3,140),narrow=W<600,cx=narrow?bs+14+(W-bs-14)/2:W*.52,cy=H*.5,m=narrow?Math.min(W-bs-24,H):Math.min(W,H);geo={cx,cy};
+    ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);stars(ctx,W,H,90,2,.4);
+    // luz solar
+    const lg=ctx.createLinearGradient(W,0,W*.7,0);lg.addColorStop(0,'rgba(253,224,71,.22)');lg.addColorStop(1,'rgba(253,224,71,0)');ctx.fillStyle=lg;ctx.fillRect(W*.7,0,W*.3,H);
+    ctx.fillStyle='rgba(253,224,71,.8)';ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='right';ctx.fillText('Luz del Sol ←',W-10,H-12);
+    const oR=real?m*.44:m*.36,eR=real?oR/60.3:m*.085,mR=real?eR*.2727:eR*.36;
+    const off=bary?oR*.01215*7:0,dx=Math.cos(th),dy=-Math.sin(th);
+    const ex=cx-dx*off,ey=cy-dy*off,mx=cx+dx*(oR-off),my=cy+dy*(oR-off);
+    ctx.setLineDash([3,6]);ctx.strokeStyle='rgba(200,210,230,.35)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,oR-off,0,TAU);ctx.stroke();ctx.setLineDash([]);
+    if(tide&&!real){const el=1.2+.16*Math.cos(th)**2;ctx.save();ctx.translate(ex,ey);ctx.rotate(-th);ctx.fillStyle=C.a2;ctx.globalAlpha=.35;ctx.beginPath();ctx.ellipse(0,0,eR*el,eR*1.04,0,0,TAU);ctx.fill();ctx.restore();ctx.globalAlpha=1}
+    // Tierra
+    drawObj(ctx,{k:'earth'},ex,ey,Math.max(eR,2),1,0);
+    ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.arc(ex,ey,Math.max(eR,2),Math.PI/2,Math.PI*1.5);ctx.fill();
+    if(!real){ctx.fillStyle=C.a1;ctx.beginPath();ctx.arc(ex+Math.cos(rot)*eR,ey-Math.sin(rot)*eR,2.6,0,TAU);ctx.fill()}
+    if(bary){ctx.strokeStyle='#f87171';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx-6,cy);ctx.lineTo(cx+6,cy);ctx.moveTo(cx,cy-6);ctx.lineTo(cx,cy+6);ctx.stroke();
+      ctx.fillStyle='#fca5a5';ctx.textAlign='left';ctx.font='11px system-ui,sans-serif';ctx.fillText('baricentro (desplazamiento ×7)',cx+8,cy+eR+28)}
+    // Luna
+    const r2=Math.max(mR,2);ctx.fillStyle='#3a3f4b';ctx.beginPath();ctx.arc(mx,my,r2,0,TAU);ctx.fill();
+    ctx.fillStyle='#e8e4d8';ctx.beginPath();ctx.arc(mx,my,r2,-Math.PI/2,Math.PI/2);ctx.fill();
+    const ma=lock?th+Math.PI:Math.PI*.15;const mkx=mx+Math.cos(ma)*r2*.6,mky=my-Math.sin(ma)*r2*.6;
+    ctx.fillStyle=C.a1;ctx.beginPath();ctx.arc(mkx,mky,Math.max(2,r2*.22),0,TAU);ctx.fill();
+    if(!lock){ctx.fillStyle='#fca5a5';ctx.font='11px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('Sin acoplamiento verías todas sus caras',mx,my+r2+16)}
+    // recuadro de fase
+    const bx=10,by=10;ctx.fillStyle='rgba(0,0,0,.45)';ctx.strokeStyle='rgba(255,255,255,.15)';ctx.beginPath();ctx.roundRect?ctx.roundRect(bx,by,bs,bs+18,10):ctx.rect(bx,by,bs,bs+18);ctx.fill();ctx.stroke();
+    const f=th/TAU;drawPhase(ctx,bx+bs/2,by+bs/2+4,bs*.34,f,south);
+    if(lock){ctx.fillStyle=C.a1;ctx.globalAlpha=.9;ctx.beginPath();ctx.arc(bx+bs/2,by+bs/2+4,3,0,TAU);ctx.fill();ctx.globalAlpha=1}
+    ctx.fillStyle=DIM;ctx.font='11px system-ui,sans-serif';ctx.textAlign='center';ctx.font='10px system-ui,sans-serif';ctx.fillText('Desde la Tierra',bx+bs/2,by+bs+10);
+    const tx=phaseName(f)+'|'+fmt(f*29.53,1);
+    if(tx!==lastTx){lastTx=tx;B('moonPhase').textContent=phaseName(f);B('moonDay').textContent=fmt(f*29.53,1)+' de 29,5';
+      B('moonIllum').textContent=fmt((1-Math.cos(th))/2*100)+' %';const c=Math.abs(Math.cos(th));
+      B('moonTideTx').textContent=c>.85?'vivas (Sol y Luna alineados)':c<.35?'muertas (en ángulo recto)':'intermedias'}
+  });
+})();
+
+/* =========================================================
+   TIERRA Y SOL
+   ========================================================= */
+(function seasons(){
+  const now=new Date(),y0=now.getFullYear();
+  let d=Math.floor((Date.UTC(y0,now.getMonth(),now.getDate())-Date.UTC(y0,0,1))/864e5),play=true,tilt=23.44,lat=0;
+  const B=id=>$('#'+id);
+  B('ssPlay').onclick=()=>{play=!play;toggleBtn(B('ssPlay'),play);B('ssPlay').textContent=play?'⏸ Pausa':'▶ Seguir'};
+  B('ssDay').oninput=e=>{d=+e.target.value};
+  B('ssTilt').oninput=e=>{tilt=+e.target.value;B('ssTiltO').textContent=fmt(tilt,1)+'°';if(tilt<.5)unlock('plano')};
+  const setLat=v=>{lat=v;B('ssLat').value=v;B('ssLatO').textContent=fmt(v,1)+'°'};
+  B('ssLat').oninput=e=>setLat(+e.target.value);
+  $$('.latb').forEach(b=>b.onclick=()=>setLat(+b.dataset.l));
+  let last='';
+  stage('sunCv',(ctx,s,dt)=>{
+    if(play){d=(d+dt*24)%365}
+    const W=s.w,H=s.h,cx=W/2,cy=H*.5;ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);stars(ctx,W,H,90,4,.35);
+    const a=Math.min(W*.4,H*1.1),b=Math.min(a*.3,H*.3);
+    const al=TAU*(d-171)/365.25,ex=cx+a*Math.cos(al),ey=cy+b*Math.sin(al);
+    ctx.strokeStyle='rgba(200,210,230,.3)';ctx.setLineDash([3,6]);ctx.beginPath();ctx.ellipse(cx,cy,a,b,0,0,TAU);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=DIM;ctx.font='11px system-ui,sans-serif';ctx.textAlign='center';
+    ctx.fillText('Solsticio de junio',cx+a,cy-b-8>12?cy+18+Math.min(a,W)*.0:cy+18);ctx.fillText('Solsticio de diciembre',cx-a,cy+18);
+    ctx.fillText('Equinoccio de septiembre',cx,cy+b+18);ctx.fillText('Equinoccio de marzo',cx,cy-b-10);
+    const drawSun=()=>{glow(ctx,cx,cy,Math.min(W,H)*.16,'rgba(253,186,116,.45)');drawObj(ctx,{k:'sun'},cx,cy,Math.min(W,H)*.07,1,0)};
+    const re=Math.min(W,H)*.075*(1+.18*Math.sin(al));
+    const drawEarth=()=>{
+      const ux=cx-ex,uy=cy-ey,ang=Math.atan2(uy,ux);
+      ctx.save();ctx.beginPath();ctx.arc(ex,ey,re,0,TAU);ctx.clip();ctx.fillStyle='#0d1b3a';ctx.fillRect(ex-re,ey-re,re*2,re*2);
+      ctx.translate(ex,ey);ctx.rotate(ang);const g=ctx.createLinearGradient(-re*.15,0,re,0);g.addColorStop(0,'#1e3a8a');g.addColorStop(.25,'#2563eb');g.addColorStop(1,'#7dd3fc');ctx.fillStyle=g;ctx.fillRect(0,-re,re,re*2);ctx.restore();
+      const t=tilt*Math.PI/180,nx=-Math.sin(t),ny=-Math.cos(t),px=Math.cos(t),py=-Math.sin(t);
+      ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ex-px*re,ey-py*re);ctx.lineTo(ex+px*re,ey+py*re);ctx.stroke();
+      const sp=Math.sin(lat*Math.PI/180),cp=Math.cos(lat*Math.PI/180);ctx.strokeStyle=C.a1;ctx.lineWidth=2.5;ctx.beginPath();
+      ctx.moveTo(ex+nx*re*sp-px*re*cp,ey+ny*re*sp-py*re*cp);ctx.lineTo(ex+nx*re*sp+px*re*cp,ey+ny*re*sp+py*re*cp);ctx.stroke();
+      ctx.strokeStyle='#e5e7eb';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(ex-nx*re*1.45,ey-ny*re*1.45);ctx.lineTo(ex+nx*re*1.45,ey+ny*re*1.45);ctx.stroke();
+      ctx.fillStyle='#e5e7eb';ctx.font='700 11px system-ui,sans-serif';ctx.fillText('N',ex+nx*re*1.7,ey+ny*re*1.7+4);};
+    if(Math.sin(al)<0){drawEarth();drawSun()}else{drawSun();drawEarth()}
+    // datos
+    const dd=Math.floor(d);const key=dd+'|'+tilt+'|'+lat;if(key===last)return;last=key;
+    B('ssDay').value=dd;const date=new Date(y0,0,1+dd);B('ssDayO').textContent=date.toLocaleDateString('es-PE',{day:'numeric',month:'long'});
+    B('ssDate').textContent=B('ssDayO').textContent;
+    B('ssDist').textContent=fmt(149.6*(1-.0167*Math.cos(TAU*(dd-3)/365.25)),1)+' millones de km';
+    const decl=-tilt*Math.cos(TAU*(dd+10)/365.25),phi=lat*Math.PI/180,de=decl*Math.PI/180;
+    const x=-Math.tan(phi)*Math.tan(de);const hrs=x>=1?0:x<=-1?24:2*Math.acos(x)*12/Math.PI;
+    B('ssHours').textContent=hrs===0?'0 h (noche polar)':hrs===24?'24 h (sol de medianoche)':Math.floor(hrs)+' h '+String(Math.round((hrs%1)*60)).padStart(2,'0')+' min';
+    const noon=90-Math.abs(lat-decl);B('ssNoon').textContent=noon<0?'bajo el horizonte':fmt(noon,1)+'°'+(noon>89.5?' (¡sin sombra!)':'');
+    let n,sur;if(tilt<.5){n=sur='sin estaciones'}else{
+      const q=dd>=78&&dd<171?0:dd>=171&&dd<264?1:dd>=264&&dd<354?2:3;const NN=['primavera','verano','otoño','invierno'],SS=['otoño','invierno','primavera','verano'];n=NN[q];sur=SS[q]}
+    B('ssSeasonN').textContent=n;B('ssSeasonS').textContent=sur;
+  });
+})();
+
+/* =========================================================
+   SISTEMA SOLAR
+   ========================================================= */
+(function solar(){
+  const PL=[
+   ['Mercurio',.387,87.97,'#b8b2a7',2.6,'El más rápido: 47 km/s. Sin atmósfera que guarde el calor, pasa de 430 °C de día a −180 °C de noche.'],
+   ['Venus',.723,224.7,'#e8c88a',4,'El más caliente (465 °C) por un efecto invernadero desbocado, aunque Mercurio está más cerca del Sol.'],
+   ['Tierra',1,365.26,'#4fa3ff',4.2,'El único lugar con vida conocida. Viaja a 107 000 km/h y nadie lo nota.'],
+   ['Marte',1.524,686.98,'#e0704f',3.2,'Tiene el volcán más alto del sistema solar, el monte Olimpo, de unos 22 km de altura.'],
+   ['Júpiter',5.203,4332.6,'#d9a46c',9,'Su Gran Mancha Roja es una tormenta más grande que la Tierra, observada desde hace siglos.'],
+   ['Saturno',9.537,10759,'#e8d08f',8,'Flotaría en el agua: su densidad es menor. Sus anillos miden cientos de miles de km de ancho y en muchas zonas apenas decenas de metros de espesor.'],
+   ['Urano',19.19,30687,'#9fe3e8',6,'Gira acostado, con el eje inclinado 98°. Cada polo vive 42 años de día y 42 de noche.'],
+   ['Neptuno',30.07,60190,'#5b7cff',6,'Vientos de hasta 2 000 km/h, los más rápidos del sistema solar. Una vuelta al Sol dura 165 años.']];
+  const ph=PL.map((p,i)=>hash(i*3+1)*TAU);
+  let days=0,play=true,real=false,rate=1,sel=-1,pos=[];
+  S.pl=S.pl||{};
+  const B=id=>$('#'+id);
+  const setRate=v=>{rate=10**(v/25);B('solSpdO').textContent='1 s = '+(rate<365?fmt(rate,rate<10?1:0)+' días':fmt(rate/365.25,1)+' años')};
+  B('solSpd').oninput=e=>setRate(+e.target.value);setRate(45);
+  B('solPlay').onclick=()=>{play=!play;toggleBtn(B('solPlay'),play);B('solPlay').textContent=play?'⏸ Pausa':'▶ Seguir'};
+  B('solScale').onclick=()=>{real=!real;toggleBtn(B('solScale'),real)};
+  const cv=B('solCv');
+  cv.addEventListener('pointerdown',ev=>{const p=ptr(cv,ev);let bi=-1,bd=26;pos.forEach((q,i)=>{const d=Math.hypot(q[0]-p.x,q[1]-p.y);if(d<bd){bd=d;bi=i}});if(bi<0)return;sel=bi;const P=PL[bi];
+    const yrs=P[2]/365.25,lt=P[1]*8.317;
+    B('solInfo').innerHTML=`<b style="color:var(--ink);font-size:1rem">${P[0]}</b><br>Distancia media al Sol: ${fmt(P[1],2)} UA (${fmt(P[1]*149.6)} millones de km). Una vuelta: ${yrs<2?fmt(P[2])+' días':fmt(yrs,1)+' años'}. La luz del Sol tarda ${lt<60?fmt(lt,1)+' min':fmt(lt/60,1)+' h'} en llegar.<br>${P[5]}`;
+    if(P[0]==='Neptuno')unlock('neptuno');S.pl[P[0]]=1;save();if(Object.keys(S.pl).length>=8)unlock('planetas');});
+  let last='';
+  stage('solCv',(ctx,s,dt)=>{
+    if(play)days+=rate*dt;
+    const W=s.w,H=s.h,cx=W/2,cy=H/2,M=Math.min(W,H)*.47;ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);stars(ctx,W,H,120,8,.35);
+    const sunR=real?2.5:Math.max(6,M*.04);glow(ctx,cx,cy,sunR*3,'rgba(253,186,116,.45)');drawObj(ctx,{k:'sun'},cx,cy,sunR,1,0);
+    pos=[];const sc=Math.min(W,H)/520;
+    PL.forEach((p,i)=>{const R=real?M*p[1]/30.07:M*Math.sqrt(p[1]/30.07);ctx.strokeStyle=i===sel?C.a1:'rgba(200,210,230,.18)';ctx.lineWidth=i===sel?1.4:1;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+      const an=ph[i]-TAU*days/p[2],x=cx+Math.cos(an)*R,y=cy+Math.sin(an)*R,r=Math.max(1.6,p[4]*sc*(real?.6:1));pos.push([x,y]);
+      if(p[0]==='Saturno'){ctx.strokeStyle='rgba(232,208,143,.7)';ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(x,y,r*1.9,r*.6,-.4,0,TAU);ctx.stroke()}
+      ctx.fillStyle=p[3];ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+      if(i===sel||p[0]==='Tierra'){ctx.fillStyle=i===sel?C.a1:DIM;ctx.font='600 11px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(p[0],x+r+4,y-r-2)}});
+    const k=Math.floor(days)+'';if(k!==last){last=k;B('solTime').textContent=days<730?fmt(days)+' días':fmt(days/365.25,1)+' años';B('solLaps').textContent=fmt(Math.floor(days/365.26))}
+  });
+})();
+
+/* =========================================================
+   VÍA LÁCTEA: máquina del tiempo
+   ========================================================= */
+(function galaxy(){
+  const EV=[[0,'Hoy. El Sol cruza el brazo de Orión.'],[66,'Cae el asteroide que extinguió a los dinosaurios no avianos.'],[230,'Aparecen los primeros dinosaurios. El Sol estaba casi en este mismo punto: hace un año galáctico.'],
+   [335,'Los continentes se juntan en Pangea.'],[540,'Explosión cámbrica: surge la mayoría de los grupos de animales.'],[2400,'Gran oxidación: el oxígeno empieza a acumularse en la atmósfera.'],
+   [3700,'Rastros más antiguos de vida en la Tierra.'],[4500,'Un choque gigante forma la Luna.'],[4600,'Nace el Sol a partir de una nube de gas.']];
+  let t=0;const B=id=>$('#'+id);
+  B('galT').oninput=e=>{t=+e.target.value;B('galTO').textContent=t?'hace '+fmt(t)+' millones de años':'hoy';
+    let best=EV[0],bd=1e9;EV.forEach(v=>{const d=Math.abs(v[0]-t);if(d<bd){bd=d;best=v}});
+    B('galEv').textContent=bd<=Math.max(40,t*.06)?best[1]:'Sin evento destacado cerca de esta fecha';B('galLaps').textContent=fmt(t/230,2);
+    if(t>=215&&t<=245)unlock('dinos')};
+  stage('galCv',(ctx,s)=>{
+    const W=s.w,H=s.h,cx=W/2,cy=H/2,R=Math.min(W,H)*.46;ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);
+    glow(ctx,cx,cy,R*.4,'rgba(253,224,171,.45)');
+    for(const p of GAL){ctx.fillStyle=p[2]===1?'#fde7b0':p[2]===2?'#dbeafe':'#c7d2fe';ctx.globalAlpha=p[2]===1?.8:.55;ctx.fillRect(cx+p[0]*R,cy+p[1]*R,1.4,1.4)}ctx.globalAlpha=1;
+    ctx.setLineDash([3,6]);ctx.strokeStyle='rgba(245,158,11,.45)';ctx.beginPath();ctx.arc(cx,cy,R*.52,0,TAU);ctx.stroke();ctx.setLineDash([]);
+    const a0=2.6,an=a0+t/230*TAU,sx=cx+Math.cos(an)*R*.52,sy=cy+Math.sin(an)*R*.52;
+    glow(ctx,sx,sy,14,'rgba(245,158,11,.7)');ctx.fillStyle='#fbbf24';ctx.beginPath();ctx.arc(sx,sy,4,0,TAU);ctx.fill();
+    ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='center';ctx.fillStyle='#fde68a';ctx.fillText(t?'Sol, hace '+fmt(t)+' Ma':'Sol (hoy)',sx,sy-12);
+    if(t){const hx=cx+Math.cos(a0)*R*.52,hy=cy+Math.sin(a0)*R*.52;ctx.strokeStyle='rgba(255,255,255,.6)';ctx.beginPath();ctx.arc(hx,hy,5,0,TAU);ctx.stroke();ctx.fillStyle=DIM;ctx.fillText('hoy',hx,hy+18)}
+    ctx.fillStyle=DIM;ctx.fillText('Sagitario A*',cx,cy+R*.16+14);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(cx,cy,2,0,TAU);ctx.fill();
+  });
+})();
+
+/* =========================================================
+   CURVA DE ROTACIÓN
+   ========================================================= */
+(function rotation(){
+  let mode='vis',seen={vis:1};const rings=[.15,.25,.35,.46,.57,.68,.79,.9];const ang=rings.map(()=>0);
+  const vObs=r=>1-Math.exp(-r/.12);const rc=.1;const Mv=r=>r**3/(r*r+rc*rc)**1.5;const vV0=r=>Math.sqrt(Mv(r)/r);const nrm=vObs(.15)/vV0(.15);const vVis=r=>vV0(r)*nrm;
+  const B=id=>$('#'+id);
+  const setM=m=>{mode=m;seen[m]=1;toggleBtn(B('rotVis'),m==='vis');toggleBtn(B('rotObs'),m==='obs');if(seen.vis&&seen.obs)unlock('oscura')};
+  B('rotVis').onclick=()=>setM('vis');B('rotObs').onclick=()=>setM('obs');B('rotAlign').onclick=()=>ang.fill(0);
+  stage('rotCv',(ctx,s,dt)=>{
+    const W=s.w,H=s.h;ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);
+    const narrow=W<520;const dcx=narrow?W*.5:W*.27,dcy=narrow?H*.3:H*.5,DR=narrow?Math.min(W*.42,H*.26):Math.min(W*.23,H*.42);
+    glow(ctx,dcx,dcy,DR*.35,'rgba(253,224,171,.5)');
+    const v=mode==='vis'?vVis:vObs;
+    rings.forEach((r,i)=>{ang[i]+=v(r)/r*dt*.9;ctx.strokeStyle='rgba(200,210,230,.12)';ctx.beginPath();ctx.arc(dcx,dcy,r*DR,0,TAU);ctx.stroke();
+      for(let k=0;k<16;k++){const a=ang[i]+k/16*TAU;ctx.fillStyle='#cbd5e1';ctx.globalAlpha=.6;ctx.fillRect(dcx+Math.cos(a)*r*DR-1,dcy+Math.sin(a)*r*DR-1,2,2)}ctx.globalAlpha=1;
+      ctx.fillStyle=C.a1;ctx.beginPath();ctx.arc(dcx+Math.cos(ang[i])*r*DR,dcy+Math.sin(ang[i])*r*DR,3.4,0,TAU);ctx.fill()});
+    ctx.strokeStyle='rgba(245,158,11,.45)';ctx.beginPath();rings.forEach((r,i)=>{const x=dcx+Math.cos(ang[i])*r*DR,y=dcy+Math.sin(ang[i])*r*DR;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+    // gráfico
+    const gx=narrow?W*.1:W*.56,gy=narrow?H*.62:H*.15,gw=narrow?W*.82:W*.38,gh=narrow?H*.3:H*.68;
+    ctx.strokeStyle='rgba(200,210,230,.4)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,gy+gh);ctx.lineTo(gx+gw,gy+gh);ctx.stroke();
+    ctx.fillStyle=DIM;ctx.font='11px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText('Velocidad',gx+4,gy-4);ctx.textAlign='right';ctx.fillText('Distancia al centro →',gx+gw,gy+gh+14);
+    const vmax=1.15;const plot=(fn,col,act)=>{ctx.strokeStyle=col;ctx.lineWidth=act?2.5:1.2;ctx.setLineDash(act?[]:[4,4]);ctx.beginPath();for(let i=0;i<=80;i++){const r=.02+i/80*.98;const x=gx+r*gw,y=gy+gh-fn(r)/vmax*gh;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke();ctx.setLineDash([])};
+    plot(vVis,'#fca5a5',mode==='vis');plot(vObs,C.a2,mode==='obs');
+    ctx.textAlign='right';ctx.fillStyle='#fca5a5';ctx.fillText('Predicción con materia visible',gx+gw,gy+gh-vVis(.95)/vmax*gh+14);ctx.fillStyle=C.a2;ctx.fillText('Medición real',gx+gw,gy+gh-vObs(.95)/vmax*gh-8);
+    rings.forEach(r=>{ctx.fillStyle=C.a1;ctx.beginPath();ctx.arc(gx+r*gw,gy+gh-v(r)/vmax*gh,3,0,TAU);ctx.fill()});
+  });
+})();
+
+/* =========================================================
+   CHOQUE DE GALAXIAS
+   ========================================================= */
+(function collide(){
+  const N=760,EPS=.12,EPS2=EPS*EPS;let P,H,T,run=false,stageTx='',passes=0,away=false,closeT=0,done=false,spd=2;
+  const B=id=>$('#'+id);
+  function init(){H=[{x:-1.6,y:-.35,vx:.085,vy:.075,m:1},{x:1.6,y:.35,vx:-.085/1.2,vy:-.075/1.2,m:1.2}];P=new Float32Array(N*5);
+    for(let i=0;i<N;i++){const g=i<N/2?0:1,h=H[g],r=.06+(g?.44:.4)*Math.sqrt(Math.random()),a=Math.random()*TAU,sg=g?-1:1;
+      const v=Math.sqrt(h.m*r*r/(r*r+EPS2)**1.5);P[i*5]=h.x+r*Math.cos(a);P[i*5+1]=h.y+r*Math.sin(a);P[i*5+2]=h.vx-sg*v*Math.sin(a);P[i*5+3]=h.vy+sg*v*Math.cos(a);P[i*5+4]=g}
+    T=0;passes=0;away=false;closeT=0;done=false;setStage('Acercamiento');}
+  function setStage(t){if(t!==stageTx){stageTx=t;B('andPhase').textContent=t}}
+  init();
+  B('andGo').onclick=()=>{run=!run;B('andGo').textContent=run?'⏸ Pausa':'▶ Seguir';toggleBtn(B('andGo'),false)};
+  B('andReset').onclick=()=>{init();run=false;B('andGo').textContent='▶ Iniciar choque';clearAll=true};
+  B('andSpd').oninput=e=>{spd=+e.target.value;B('andSpdO').textContent='x'+spd};
+  let clearAll=true;
+  function step(dt){const a=H[0],b=H[1];const dx=b.x-a.x,dy=b.y-a.y,r2=dx*dx+dy*dy+EPS2,inv=1/(r2*Math.sqrt(r2)),s=Math.hypot(dx,dy);
+    let ax=b.m*dx*inv,ay=b.m*dy*inv,bx=-a.m*dx*inv,by=-a.m*dy*inv;
+    if(s<1.4){const k=.18*(1.4-s),rx=b.vx-a.vx,ry=b.vy-a.vy,mt=a.m+b.m;ax+=k*rx*b.m/mt;ay+=k*ry*b.m/mt;bx-=k*rx*a.m/mt;by-=k*ry*a.m/mt}
+    a.vx+=ax*dt;a.vy+=ay*dt;b.vx+=bx*dt;b.vy+=by*dt;a.x+=a.vx*dt;a.y+=a.vy*dt;b.x+=b.vx*dt;b.y+=b.vy*dt;
+    for(let i=0;i<N;i++){const o=i*5;let fx=0,fy=0;for(const h of H){const ddx=h.x-P[o],ddy=h.y-P[o+1],rr=ddx*ddx+ddy*ddy+EPS2,iv=h.m/(rr*Math.sqrt(rr));fx+=ddx*iv;fy+=ddy*iv}
+      P[o+2]+=fx*dt;P[o+3]+=fy*dt;P[o]+=P[o+2]*dt;P[o+1]+=P[o+3]*dt}
+    T+=dt;
+    if(passes===0&&s<.8){passes=1;setStage('Primer encuentro: se forman colas de marea')}
+    else if(passes===1&&s>1){away=true;setStage('Se separan y la gravedad las frena')}
+    else if(passes===1&&away&&s<.6){passes=2;setStage('Segundo encuentro')}
+    if(passes>=1&&s<.15){closeT+=dt;if(closeT>2.5&&!done){done=true;setStage('Fusión completa: nace Lactómeda');unlock('lactomeda')}}
+  }
+  stage('andCv',(ctx,s,dt)=>{s.dtLast=Math.min(dt,.05);
+    if(run){const n=Math.max(1,Math.round(spd*s.dtLast*60));for(let k=0;k<n;k++)step(.01)}
+    const W=s.w,H2=s.h;const cmx=(H[0].x*H[0].m+H[1].x*H[1].m)/2.2,cmy=(H[0].y*H[0].m+H[1].y*H[1].m)/2.2;const sc=Math.min(W/4.6,H2/3.2);
+    if(clearAll||!run){ctx.globalAlpha=1;clearAll=false}else ctx.globalAlpha=.55;ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H2);ctx.globalAlpha=1;
+    if(!run)stars(ctx,W,H2,80,9,.3);
+    for(let i=0;i<N;i++){const o=i*5,x=W/2+(P[o]-cmx)*sc,y=H2/2+(P[o+1]-cmy)*sc;if(x<-5||y<-5||x>W+5||y>H2+5)continue;ctx.fillStyle=P[o+4]?'#fcd34d':'#7dd3fc';ctx.globalAlpha=.95;ctx.fillRect(x,y,2,2)}
+    ctx.globalAlpha=1;H.forEach((h,i)=>glow(ctx,W/2+(h.x-cmx)*sc,H2/2+(h.y-cmy)*sc,10,i?'rgba(253,230,138,.9)':'rgba(165,243,252,.9)'));
+    B('andT').textContent=fmt(T*1100)+' millones de años';
+  });
+})();
+
+/* =========================================================
+   EXPANSIÓN: pan con pasas
+   ========================================================= */
+(function expansion(){
+  const G=[];let tries=0;while(G.length<44&&tries<3000){tries++;const x=Math.random()*2.2-1.1,y=Math.random()*1.6-.8;if(G.every(g=>(g.x-x)**2+(g.y-y)**2>.035))G.push({x,y,o:Math.random()*3,c:Math.random()})}
+  G.sort((a,b)=>(a.x*a.x+a.y*a.y)-(b.x*b.x+b.y*b.y));
+  let ref=0,camX=G[0].x,camY=G[0].y,a=1,arrows=true,play=true,fade=1;const tried=new Set([0]);
+  const B=id=>$('#'+id);
+  B('expArrows').onclick=()=>{arrows=!arrows;toggleBtn(B('expArrows'),arrows)};
+  B('expPlay').onclick=()=>{play=!play;B('expPlay').textContent=play?'⏸ Pausa':'▶ Seguir'};
+  let scr=[];const cv=B('expCv');
+  cv.addEventListener('pointerdown',ev=>{const p=ptr(cv,ev);let bi=-1,bd=28;scr.forEach((q,i)=>{const d=Math.hypot(q[0]-p.x,q[1]-p.y);if(d<bd){bd=d;bi=i}});
+    if(bi>=0){ref=bi;tried.add(bi);B('expRef').textContent='Galaxia '+(bi+1);B('expCnt').textContent=tried.size;if(tried.size>=3)unlock('centro')}});
+  stage('expCv',(ctx,s,dt)=>{
+    if(play){a+=dt*.2;if(a>2.3){fade-=dt*3;if(fade<=0){a=1;fade=0}}else if(fade<1)fade=Math.min(1,fade+dt*3)}
+    camX+=(G[ref].x-camX)*Math.min(1,dt*6);camY+=(G[ref].y-camY)*Math.min(1,dt*6);
+    const W=s.w,H=s.h,cx=W/2,cy=H/2,S0=Math.min(W,H)*.42;ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);
+    scr=[];ctx.globalAlpha=fade;
+    G.forEach((g,i)=>{const x=cx+(g.x-camX)*a*S0,y=cy+(g.y-camY)*a*S0;scr.push([x,y]);if(x<-20||y<-20||x>W+20||y>H+20)return;
+      const isR=i===ref;
+      if(arrows&&!isR){const vx=(x-cx)*.22,vy=(y-cy)*.22;const L=Math.hypot(vx,vy);if(L>3){const ex=x+vx,ey=y+vy;ctx.strokeStyle='rgba(6,182,212,.75)';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(ex,ey);ctx.stroke();
+        const an=Math.atan2(vy,vx);ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-6*Math.cos(an-.45),ey-6*Math.sin(an-.45));ctx.lineTo(ex-6*Math.cos(an+.45),ey-6*Math.sin(an+.45));ctx.closePath();ctx.fillStyle='rgba(6,182,212,.75)';ctx.fill()}}
+      ctx.save();ctx.translate(x,y);ctx.rotate(g.o);ctx.scale(1,.5);glow(ctx,0,0,isR?12:8,isR?'rgba(251,191,36,.95)':g.c>.5?'rgba(219,234,254,.9)':'rgba(253,230,190,.85)',fade);ctx.restore();
+      if(isR){ctx.strokeStyle=C.a1;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,y,15,0,TAU);ctx.stroke();ctx.fillStyle='#fde68a';ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('Tú',x,y-20)}});
+    ctx.globalAlpha=1;ctx.fillStyle=DIM;ctx.font='11px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText('Factor de escala del universo: ×'+fmt(a,2),10,H-10);
+  });
+})();
+
+/* =========================================================
+   VELOCIDAD TOTAL
+   ========================================================= */
+(function speed(){
+  const rows=[['Rotación de la Tierra',l=>1674.4*Math.cos(l*Math.PI/180),'#a3e635'],['Órbita alrededor del Sol',()=>107200,'#38bdf8'],['El Sol alrededor de la galaxia',()=>828000,'#f59e0b'],['Grupo Local respecto al fondo cósmico',()=>2230000,'#c084fc']];
+  const box=$('#velBars');box.innerHTML=rows.map((r,i)=>`<div class="vrow"><span>${r[0]}</span><div class="bar"><i id="vb${i}" style="background:${r[2]}"></i><span id="vt${i}"></span></div></div>`).join('');
+  let lat=0;const set=v=>{lat=v;$('#velLat').value=v;$('#velLatO').textContent=fmt(v,1)+'°';rows.forEach((r,i)=>{const val=r[1](lat);$('#vb'+i).style.width=Math.max(1.2,val/2230000*100)+'%';$('#vt'+i).textContent=fmt(val)+' km/h'})};
+  $('#velLat').oninput=e=>set(+e.target.value);$$('.vlb').forEach(b=>b.onclick=()=>set(+b.dataset.l));set(0);
+  const t0=performance.now();setInterval(()=>{const sec=(performance.now()-t0)/1000;$('#liveSun').textContent=fmt(sec*29.78,1)+' km';$('#liveGal').textContent=fmt(sec*230,1)+' km'},100);
+})();
+
+/* =========================================================
+   DOBLE RENDIJA
+   ========================================================= */
+(function slit(){
+  let det=false,burst=false,rate=40,acc=0,n=0;const fl=[],hits=[],BINS=90,hist=new Uint32Array(BINS);let layer=null,lctx=null,geom=null;
+  const B=id=>$('#'+id);
+  const I=u=>det?(Math.exp(-(((u-.2)/.2)**2))+Math.exp(-(((u+.2)/.2)**2))):Math.cos(Math.PI*5*u)**2*Math.exp(-((u/.5)**2));
+  const sample=()=>{for(let i=0;i<500;i++){const u=Math.random()*2-1;if(Math.random()*1.05<I(u))return u}return 0};
+  const fire=()=>fl.push({u:sample(),sl:Math.random()<.5?-1:1,p:0});
+  B('ds1').onclick=fire;
+  B('dsBurst').onclick=()=>{burst=!burst;toggleBtn(B('dsBurst'),burst);B('dsBurst').textContent=burst?'⏸ Detener':'▶ Ráfaga'};
+  B('dsRate').oninput=e=>{rate=+e.target.value;B('dsRateO').textContent=rate};
+  const clear=()=>{hits.length=0;hist.fill(0);n=0;fl.length=0;B('dsN').textContent='0';if(lctx)lctx.clearRect(0,0,layer.width,layer.height)};
+  B('dsClr').onclick=clear;
+  B('dsDet').onclick=()=>{det=!det;toggleBtn(B('dsDet'),det);B('dsMode').textContent=det?'observando por cuál rendija pasa':'sin observar';clear();if(det)unlock('observador')};
+  const plotHit=(u,j)=>{if(!geom)return;const{scrX,cy,hh,W}=geom;lctx.fillStyle=det?'#fbbf24':'#67e8f9';lctx.globalAlpha=.85;lctx.fillRect(scrX+j*W*.022,cy+u*hh,1.6,1.6)};
+  const st=stage('dsCv',(ctx,s,dt)=>{
+    const W=s.w,H=s.h,cy=H/2,hh=H*.44,srcX=W*.07,barX=W*.42,scrX=W*.76,hx=W*.81,sep=hh*.2,sw=H*.022;geom={scrX,cy,hh,W};
+    if(!layer||layer.width!==s.cv.width){layer=document.createElement('canvas');layer.width=s.cv.width;layer.height=s.cv.height;lctx=layer.getContext('2d');lctx.setTransform(s.dpr,0,0,s.dpr,0,0);hits.forEach(h=>plotHit(h[0],h[1]))}
+    if(burst){acc+=rate*dt;while(acc>=1){fire();acc--}}
+    ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);
+    // barrera
+    ctx.fillStyle='#475569';ctx.fillRect(barX-3,0,6,cy-sep-sw);ctx.fillRect(barX-3,cy-sep+sw,6,2*sep-2*sw);ctx.fillRect(barX-3,cy+sep+sw,6,H-(cy+sep+sw));
+    ctx.fillStyle='rgba(148,163,184,.15)';ctx.fillRect(scrX-2,cy-hh-6,W*.03,hh*2+12);
+    glow(ctx,srcX,cy,16,'rgba(103,232,249,.8)');ctx.fillStyle=DIM;ctx.font='11px system-ui,sans-serif';ctx.textAlign='center';ctx.textAlign='left';ctx.fillText('Cañón',6,cy+30);ctx.textAlign='center';ctx.fillText('Pantalla',scrX+W*.012,14);
+    if(det){[-1,1].forEach(k=>{ctx.fillStyle='#fbbf24';ctx.beginPath();ctx.ellipse(barX+16,cy+k*sep,7,4,0,0,TAU);ctx.fill();ctx.fillStyle='#111';ctx.beginPath();ctx.arc(barX+16,cy+k*sep,2,0,TAU);ctx.fill()})}
+    // vuelos
+    let arcs=0;
+    for(let i=fl.length-1;i>=0;i--){const f=fl[i];f.p+=dt/.6;
+      if(f.p>=1){fl.splice(i,1);const j=Math.random();hits.push([f.u,j]);if(hits.length>9000)hits.shift();plotHit(f.u,j);hist[clamp(Math.floor((f.u+1)/2*BINS),0,BINS-1)]++;n++;if(n===1000)unlock('mil');continue}
+      if(det){let x,y;const sy=cy+f.sl*sep;if(f.p<.5){const q=f.p/.5;x=lerp(srcX,barX,q);y=lerp(cy,sy,q)}else{const q=(f.p-.5)/.5;x=lerp(barX,scrX,q);y=lerp(sy,cy+f.u*hh,q)}
+        glow(ctx,x,y,6,'rgba(251,191,36,.9)');if(f.p>.45&&f.p<.58){ctx.strokeStyle='#fbbf24';ctx.beginPath();ctx.arc(barX+16,sy,10,0,TAU);ctx.stroke()}}
+      else if(arcs<5){arcs++;ctx.strokeStyle='rgba(103,232,249,.35)';ctx.lineWidth=1.2;
+        if(f.p<.5){const rr=(barX-srcX)*f.p/.5;ctx.beginPath();ctx.arc(srcX,cy,rr,-.9,.9);ctx.stroke()}
+        else{const rr=(scrX-barX)*(f.p-.5)/.5;[-1,1].forEach(k=>{ctx.beginPath();ctx.arc(barX,cy+k*sep,rr,-1.2,1.2);ctx.stroke()})}}}
+    ctx.drawImage(layer,0,0,s.cv.width,s.cv.height,0,0,W,H);
+    // histograma
+    let mx=1;for(const v of hist)mx=Math.max(mx,v);const bw=W*.16,bh=hh*2/BINS;
+    ctx.fillStyle=det?'rgba(251,191,36,.7)':'rgba(6,182,212,.75)';for(let i=0;i<BINS;i++){const v=hist[i]/mx*bw;ctx.fillRect(hx,cy-hh+i*bh,v,Math.max(1,bh-.5))}
+    if(n>150){ctx.strokeStyle='rgba(255,255,255,.45)';ctx.setLineDash([3,3]);ctx.beginPath();for(let i=0;i<=100;i++){const u=-1+i/50;const x=hx+I(u)/(det?1.02:1)*bw,y=cy+u*hh;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke();ctx.setLineDash([])}
+    B('dsN').textContent=fmt(n);
+  });
+})();
+
+/* =========================================================
+   INCERTIDUMBRE
+   ========================================================= */
+(function uncert(){
+  let sig=.8;const B=id=>$('#'+id);
+  const upd=()=>{B('unSigO').textContent=sig<.5?'muy localizada':sig<1.2?'intermedia':'muy extendida';B('unDx').textContent=fmt(sig,2);B('unDp').textContent=fmt(1/(2*sig),2);B('unProd').textContent='0,50 = ħ/2 (el mínimo)'};
+  B('unSig').oninput=e=>{sig=+e.target.value;upd()};upd();
+  stage('unCv',(ctx,s)=>{
+    const W=s.w,H=s.h,t=reduce?0:s.t;ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);
+    const panel=(y0,h,title,col,fn,x0,x1,fill)=>{ctx.strokeStyle='rgba(200,210,230,.3)';ctx.beginPath();ctx.moveTo(14,y0+h);ctx.lineTo(W-14,y0+h);ctx.stroke();
+      ctx.fillStyle=DIM;ctx.font='12px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(title,16,y0+14);
+      ctx.beginPath();for(let i=0;i<=300;i++){const u=x0+(x1-x0)*i/300,v=fn(u);const x=14+(W-28)*i/300,y=y0+h-v*(h-24);i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
+      if(fill){ctx.lineTo(W-14,y0+h);ctx.lineTo(14,y0+h);ctx.closePath();ctx.fillStyle=col;ctx.globalAlpha=.25;ctx.fill();ctx.globalAlpha=1}else{ctx.strokeStyle=col;ctx.lineWidth=1.6;ctx.stroke()}};
+    const h=H*.42;
+    panel(6,h,'Posición: dónde podría estar la partícula',C.a2,x=>Math.exp(-x*x/(2*sig*sig)),-6,6,true);
+    ctx.save();ctx.translate(0,0);
+    ctx.beginPath();for(let i=0;i<=300;i++){const u=-6+12*i/300;const env=Math.exp(-u*u/(4*sig*sig));const v=env*Math.cos(4*u-t*4);const x=14+(W-28)*i/300,y=6+h-(h-24)*(.5+.5*v)*1;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
+    ctx.strokeStyle=C.a2;ctx.lineWidth=1.3;ctx.globalAlpha=.8;ctx.stroke();ctx.restore();ctx.globalAlpha=1;
+    const sp=1/(2*sig);
+    panel(H*.52,h,'Momento: qué tan rápido (y hacia dónde) se mueve',C.a1,p=>Math.exp(-((p-4)**2)/(2*sp*sp)),-2,10,true);
+  });
+})();
+
+/* =========================================================
+   ORBITALES
+   ========================================================= */
+(function orbitals(){
+  const ORB={'1s':{R:5,f:(x,z)=>{const r=Math.hypot(x,z);return Math.exp(-2*r)}},'2p':{R:13,f:(x,z)=>{const r=Math.hypot(x,z);return z*z*Math.exp(-r)}},'3d':{R:24,f:(x,z)=>{const r=Math.hypot(x,z);return (3*z*z-r*r)**2*Math.exp(-2*r/3)}}};
+  for(const k in ORB){let m=0;const o=ORB[k];for(let i=0;i<=240;i++)for(let j=0;j<=240;j++){const v=o.f(-o.R+2*o.R*i/240,-o.R+2*o.R*j/240);if(v>m)m=v}o.max=m*1.02}
+  let cur='1s',n=0,layer=null,lctx=null,seen=new Set(['1s']);const B=id=>$('#'+id);
+  $$('.orbb').forEach(b=>b.onclick=()=>{cur=b.dataset.o;$$('.orbb').forEach(x=>toggleBtn(x,x===b));n=0;B('orbName').textContent=cur;if(lctx)lctx.clearRect(0,0,layer.width,layer.height);seen.add(cur);if(seen.size===3)unlock('orbitales')});
+  stage('orbCv',(ctx,s)=>{
+    const W=s.w,H=s.h,m=Math.min(W,H)*.92,cx=W/2,cy=H/2;
+    if(!layer||layer.width!==s.cv.width){layer=document.createElement('canvas');layer.width=s.cv.width;layer.height=s.cv.height;lctx=layer.getContext('2d');lctx.setTransform(s.dpr,0,0,s.dpr,0,0);n=0}
+    const o=ORB[cur];if(n<70000){lctx.fillStyle=C.a2;lctx.globalAlpha=.4;let added=0,guard=0;while(added<260&&guard<20000){guard++;const x=(Math.random()*2-1)*o.R,z=(Math.random()*2-1)*o.R;if(Math.random()*o.max<o.f(x,z)){lctx.fillRect(cx+x/o.R*m/2,cy-z/o.R*m/2,1.2,1.2);added++}}n+=added}
+    ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);ctx.drawImage(layer,0,0,s.cv.width,s.cv.height,0,0,W,H);
+    ctx.fillStyle=C.a1;ctx.beginPath();ctx.arc(cx,cy,2.5,0,TAU);ctx.fill();
+    ctx.fillStyle=DIM;ctx.font='11px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText('Cada punto es una medición de la posición del electrón',10,H-10);ctx.fillText('Núcleo en el centro',10,16);
+    B('orbN').textContent=fmt(n);
+  });
+})();
+
+/* =========================================================
+   EFECTO TÚNEL
+   ========================================================= */
+(function tunnel(){
+  let L=1,V=1.6;const k=1.9;const B=id=>$('#'+id);
+  const T=()=>Math.exp(-2*k*Math.sqrt(V-1)*L);
+  const upd=()=>{B('tunWO').textContent=fmt(L,2)+' nm';B('tunHO').textContent=fmt(V,2)+' × la energía';const t=T();
+    B('tunT').textContent=t>=1e-4?fmt(t*100,t<.01?3:1)+' %':(()=>{const e=Math.floor(Math.log10(t*100));return fmt(t*100/10**e,1)+' × 10'+sup(e)+' %'})();if(t>.3)unlock('tunel')};
+  B('tunW').oninput=e=>{L=+e.target.value;upd()};B('tunH').oninput=e=>{V=+e.target.value;upd()};upd();
+  stage('tunCv',(ctx,s)=>{
+    const W=s.w,H=s.h,t=reduce?0:s.t,base=H*.86,eY=H*.55,A=H*.17,bx0=W*.42,unit=W*.14,bx1=bx0+L*unit,vY=base-(base-eY)*V;
+    ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(148,163,184,.35)';ctx.fillRect(bx0,Math.max(8,vY),bx1-bx0,base-Math.max(8,vY));ctx.strokeStyle='#94a3b8';ctx.strokeRect(bx0,Math.max(8,vY),bx1-bx0,base-Math.max(8,vY));
+    ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(251,191,36,.6)';ctx.beginPath();ctx.moveTo(10,eY);ctx.lineTo(W-10,eY);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='rgba(251,191,36,.8)';ctx.font='11px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText('energía de la partícula',12,eY-6);ctx.fillStyle=DIM;ctx.fillText('barrera',bx0+3,Math.max(8,vY)+14);
+    const kap=k*Math.sqrt(V-1),wl=W*.07,tr=Math.sqrt(T());
+    ctx.strokeStyle=C.a2;ctx.lineWidth=2;ctx.beginPath();
+    for(let x=0;x<=W;x+=2){let y;const ph=x/wl*TAU-t*5;
+      if(x<bx0)y=eY-A*Math.cos(ph);else if(x<bx1){const d=(x-bx0)/unit;y=eY-A*Math.exp(-kap*d)*Math.cos(bx0/wl*TAU-t*5)}else y=eY-A*tr*Math.cos(ph);
+      x?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke();
+  });
+})();
+
+/* =========================================================
+   FUERZAS POR ESCALA
+   ========================================================= */
+(function forces(){
+  const sm=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t)},ga=(x,m,s)=>Math.exp(-(((x-m)/s)**2));
+  const F=[['Nuclear fuerte','#ef4444',e=>ga(e,-15,1.3)],['Nuclear débil','#a855f7',e=>.55*ga(e,-17.6,1.2)],['Electromagnética','#06b6d4',e=>sm(-13.6,-11.5,e)*(1-sm(5,8,e))],['Gravedad','#f59e0b',e=>sm(4.5,8,e)]];
+  const TX=['La nuclear fuerte manda. Es unas 100 veces más intensa que la electromagnética, pero su alcance se apaga cerca de 10⁻¹⁵ m. Mantiene unidos protones y neutrones aunque las cargas positivas se repelan.',
+    'La nuclear débil actúa a distancias diminutas. Convierte neutrones en protones en ciertas desintegraciones radiactivas y hace posible el primer paso de la fusión en el Sol.',
+    'Manda la electromagnética. Arma átomos, moléculas, células, la fricción de tus zapatos con el piso y la luz que ves. Como las cargas positivas y negativas se compensan, pierde terreno en objetos enormes.',
+    'Manda la gravedad. Es la más débil de las cuatro, pero siempre atrae y se acumula con la masa. Redondea planetas, enciende estrellas y arma galaxias.'];
+  $('#fBars').innerHTML=F.map((f,i)=>`<div class="fbar"><span>${f[0]}</span><div><i id="fb${i}" style="background:${f[1]}"></i></div></div>`).join('');
+  const upd=e=>{const v=F.map(f=>f[2](e));const mx=Math.max(...v,1e-6);v.forEach((x,i)=>$('#fb'+i).style.width=(x/Math.max(mx,.2)*100).toFixed(1)+'%');const di=v.indexOf(Math.max(...v));
+    let best=OBJ[0],bd=1e9;OBJ.forEach(o=>{const d=Math.abs(Math.log10(o.s)-e);if(d<bd){bd=d;best=o}});
+    $('#fScaleO').textContent='10'+sup(Math.round(e))+' m (cerca de: '+best.n.toLowerCase()+')';$('#fTx').textContent=TX[di]};
+  $('#fScale').oninput=ev=>upd(+ev.target.value);upd(-10);
+})();
+
+/* =========================================================
+   DECOHERENCIA
+   ========================================================= */
+(function decoh(){
+  const K=[{r:.25,sz:6,tau:'segundos o más, si está bien aislado'},{r:1.1,sz:13,tau:'lo justo para interferir, en alto vacío'},{r:25,sz:20,tau:'del orden de 10⁻³¹ s'},{r:350,sz:34,tau:'muchísimo menor que 10⁻³¹ s'}];
+  let kind=0,coh=1,collapsed=-1,parts=[],acc=0;const B=id=>$('#'+id);
+  const prep=()=>{coh=1;collapsed=-1;parts=[]};
+  $$('.decb').forEach(b=>b.onclick=()=>{kind=+b.dataset.k;$$('.decb').forEach(x=>toggleBtn(x,x===b));B('decTau').textContent=K[kind].tau;prep()});
+  B('decGo').onclick=prep;B('decTau').textContent=K[0].tau;
+  let lastC='';
+  stage('decCv',(ctx,s,dt)=>{
+    const W=s.w,H=s.h,cx=W/2,cy=H/2,dx=Math.min(W*.2,130),k=K[kind],R=k.sz*Math.min(1,W/500)+2;
+    if(collapsed<0){coh*=Math.exp(-k.r*.12*dt);if(coh<.03){collapsed=Math.random()<.5?0:1;if(kind>=2)unlock('colapso')}}
+    acc+=Math.min(k.r,60)*dt*3;while(acc>=1){acc--;const side=Math.floor(Math.random()*4);const sp=120+Math.random()*80;let x,y,vx,vy;
+      if(side===0){x=0;y=Math.random()*H;vx=sp;vy=(Math.random()-.5)*60}else if(side===1){x=W;y=Math.random()*H;vx=-sp;vy=(Math.random()-.5)*60}else if(side===2){x=Math.random()*W;y=0;vx=(Math.random()-.5)*60;vy=sp}else{x=Math.random()*W;y=H;vx=(Math.random()-.5)*60;vy=-sp}
+      if(parts.length<260)parts.push({x,y,vx,vy})}
+    ctx.fillStyle=C.stage;ctx.fillRect(0,0,W,H);
+    const ghosts=[[cx-dx,cy],[cx+dx,cy]];
+    if(collapsed<0&&coh>.02){ctx.save();ctx.beginPath();ctx.rect(cx-dx,cy-R*2.2,2*dx,R*4.4);ctx.clip();for(let x=cx-dx;x<cx+dx;x+=2){const v=.5+.5*Math.cos((x-cx)/6);ctx.fillStyle=`rgba(103,232,249,${(v*coh*.5).toFixed(3)})`;ctx.fillRect(x,cy-R*2.2,2,R*4.4)}ctx.restore()}
+    ghosts.forEach((g,i)=>{const al=collapsed<0?.55:(collapsed===i?1:0);if(al<=0)return;ctx.globalAlpha=al;
+      if(kind===3){const gr=ctx.createRadialGradient(g[0]-R*.3,g[1]-R*.3,R*.1,g[0],g[1],R);gr.addColorStop(0,'#fde68a');gr.addColorStop(1,'#d97706');ctx.fillStyle=gr}else ctx.fillStyle=kind===2?'#d6b98a':kind===1?'#a5b4fc':'#67e8f9';
+      ctx.beginPath();ctx.arc(g[0],g[1],R,0,TAU);ctx.fill();ctx.globalAlpha=1});
+    ctx.fillStyle='rgba(203,213,225,.75)';for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.x<-10||p.y<-10||p.x>W+10||p.y>H+10){parts.splice(i,1);continue}ctx.fillRect(p.x,p.y,2,2)}
+    ctx.fillStyle=DIM;ctx.font='12px system-ui,sans-serif';ctx.textAlign='center';
+    ctx.fillText(collapsed<0?(coh>.5?'Superposición: el objeto está en los dos lugares':'La superposición se está borrando'):'Decoherencia: ahora está en un solo lugar',cx,H-14);
+    const c=fmt(collapsed<0?coh*100:0)+' %';if(c!==lastC){lastC=c;B('decCoh').textContent=c}
+  });
+})();
+
+})();
+</script>
+</body>
+</html>
